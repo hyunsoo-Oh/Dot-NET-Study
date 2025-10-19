@@ -6,7 +6,12 @@ namespace Basic_Notes    // namespace 선언 -> 코드 조직화 및 충돌 방�
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            if (args.Length == 0)
+            {
+                Console.WriteLine("사용법 : Hello.exe <이름>");
+                return;
+            }
+            Console.WriteLine("Hello, {0}!", args[0]);
         }
     }
 }
