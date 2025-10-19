@@ -71,6 +71,18 @@ for (int i = 1; i < 10, i++)
 ```
 
 #### foreach 문
+```
+foreach (element in iterable-item)
+{
+    // body
+}
+```
+```
+foreach (int elem in arr)
+{
+    // 배열 arr의 각 원소만큼 반복
+}
+```
 
 #### Jump 문
 - break : 반복문이나 switch 문의 실행을 중단
@@ -153,3 +165,27 @@ void MyMethod(int a = 0, int b = 0)
 {
     Console.WriteLine("{0}, {1}", a, b);
 }
+```
+
+### 구조체 struct
+- Class는 참조형식, 구조체는 값형식
+- 클래스 인스턴스는 가비지 콜렉터가 제거, 구조체 인스턴스는 스택이 자동 제거
+```
+struct MyStruct
+{
+    public int MyField1;
+    public int MyField2;
+    public void MyMethod()
+    {
+        // ...
+    }
+}
+```
+
+### 튜플 Tuple
+- 기본적으로 구조체, 즉 값형식
+- 형식 이름 없이 선언하여 사용
+- 즉석에서 활용되는 형식을 만들 때 적합
+```
+var tuple = (123, 789);
+```
