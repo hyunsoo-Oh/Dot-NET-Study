@@ -31,7 +31,7 @@ class Animal
     }
 
     // 소멸자
-    ~Cat()
+    ~Animal()
     {
         // Console.WriteLine(Name+"객체 제거하기");
     }
