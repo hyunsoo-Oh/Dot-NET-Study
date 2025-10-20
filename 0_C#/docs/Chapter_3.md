@@ -50,7 +50,7 @@ kitty.Name = "marry"; // 필드가 private인 경우 (Property)
 - 얕은 복사 : 참조를 복사하는 것
     - 클래스는 참조 형식이므로 얕은 복사
 - 깊은 복사 : 데이터의 값 전체를 복사하는 것
-```
+```C#
 Class c1 = new Class(5, 5);
 Class c2 = c1; // 얕은 복사
 v1.x = 10;
@@ -58,7 +58,7 @@ Console.WriteLine(v2.x); // 10
 ```
 
 #### this 키워드
-```
+```C#
 class MyClass
 {
     int a, b, c;
@@ -79,7 +79,7 @@ class MyClass
 ```
 
 #### 상속 Inheritance
-```
+```C#
 class BaseClass
 {
     protected int num;
@@ -113,4 +113,28 @@ class DerivedClass : BaseClass
 ```
 
 ### 인터페이스 & 추상클래스
+#### 인터페이스 Interface
+- d
 
+```C#
+interface ILogger
+{
+    void WriteLog(string message);
+}
+
+class ConsoleLogger : ILogger // ILogger, Interface1, Interface2
+{
+    void WriteLog(string message)
+    {
+        Console.WriteLine($"{message}");
+    }
+}
+```
+
+#### 추상클래스 Abstract
+
+```C#
+abstract class MyClass
+{
+    
+```
