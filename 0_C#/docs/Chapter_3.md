@@ -8,6 +8,10 @@
 - 객체 Object
     - 메모링에 적재된 실체 (무한대 생성 가능)
     - 선언된 데이터 항목에 실제 데이터 저장
+
+
+**virtual** : 본문 있음, 선택적 재정의 -> override를 위해 필수
+
 ```C#
 class Animal
 {
@@ -113,13 +117,20 @@ class DerivedClass : BaseClass
 ```
 
 ### 인터페이스 & 추상클래스
+**abstract** : 본문 없음, 반드시 재정의를 해야 함
+
+**virtual** : 본문 있음, 선택적 재정의
+
 #### 인터페이스 Interface
-- d
+- 해야 할 일 Method만 존재
+    - 한정자를 사용하지 않음 (private, public)
+    - public virtual를 사용
 
 ```C#
 interface ILogger
 {
     void WriteLog(string message);
+    // public virtual void WriteLog(string message);
 }
 
 class ConsoleLogger : ILogger // ILogger, Interface1, Interface2
@@ -132,9 +143,23 @@ class ConsoleLogger : ILogger // ILogger, Interface1, Interface2
 ```
 
 #### 추상클래스 Abstract
+- 공통 상태(필드) + 공통 구현(메서드) + 추상 멤버
+    - 멤버 변수 protected
+    - 멤버 함수 protected abstract
+    - protected virtual도 사용 가능
 
 ```C#
-abstract class MyClass
+abstract class AbstractClass
 {
-    
+    protected String message;
+    protected abstract void WriteLog(String message);
+}
+
+class MyClass : AbstractClass
+{
+    public override void WriteLog(String message)
+    {
+        Console.WriteLine($"{message}");
+    }
+}
 ```
