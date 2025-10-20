@@ -48,7 +48,7 @@ private void textBox_KeyDown(object sender, KeyEventArgs e)
 }
 private void button_Click(object sender, EventArgs e)
 {
-    string message = string.Empyu;
+    string message = string.Empty;
     message = string.Format(textBox.Text);
 }
 ```
@@ -72,4 +72,5 @@ private void Form1_Load(object sender, EventArgs e)
 }
 ```
 ### TCP/IP (Net, Net.Sockets, IO)
+
 
