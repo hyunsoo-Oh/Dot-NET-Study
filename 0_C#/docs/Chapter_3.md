@@ -17,13 +17,13 @@ class Animal
 
     // Property 정의
     // 필드(field)”에 접근하기 위한 중간 제어 지점(접근자, Accessor)
-    public string Name { get => name; set => name = value; }
+    public string Name { get => _name; set => _name = value; }
     public string Color { get; set; }
 
     // 생성자 정의
     public Animal()
     {
-        Name = ""; Color = "";
+        this._name = ""; this._color = "";
     }
     public Animal(string name, string color)
     {
@@ -44,6 +44,72 @@ class Animal
 Animal kitty = new Animal("kitty", "Black");
 // kitty._name = "marry"; // 필드가 public인 경우
 kitty.Name = "marry"; // 필드가 private인 경우 (Property)
+```
+
+#### 얕은 복사 / 깊은 복사
+- 얕은 복사 : 참조를 복사하는 것
+    - 클래스는 참조 형식이므로 얕은 복사
+- 깊은 복사 : 데이터의 값 전체를 복사하는 것
+```
+Class c1 = new Class(5, 5);
+Class c2 = c1; // 얕은 복사
+v1.x = 10;
+Console.WriteLine(v2.x); // 10
+```
+
+#### this 키워드
+```
+class MyClass
+{
+    int a, b, c;
+
+    public MyClass()
+    {
+        this.a = 1;
+    }
+    public MyClass(int b) : this()
+    {
+        this.b = b;
+    }
+    public MyClass(int b, int c) :this(b)
+    {
+        this.c = c;
+    }
+}
+```
+
+#### 상속 Inheritance
+```
+class BaseClass
+{
+    protected int num;
+
+    public BaseClass(int Number)
+    {
+        this.num = Number;
+    }
+
+    // virtual : 함수의 재정의를 허용
+    public virtual int Sum(int a, int b)
+    {
+        return a + b;
+    }
+}
+class DerivedClass : BaseClass
+{
+    // private로 선언된 멤버를 제외한 모든 멤버 변수 상속
+
+    public DerivedClass(int Number) : Base(Number)
+    {
+        // 나머지
+    }
+
+    // 다형성 Override
+    public override int Sum(int a, int b)
+    {
+        return a + b + 1;
+    }
+}
 ```
 
 ### 인터페이스 & 추상클래스
