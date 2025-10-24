@@ -11,12 +11,18 @@
 - Form.cs : 디자인 UI
   - Form.Designer.cs : Form에 컨트롤을 추가하거나 수정하면 코드가 자동 생성되는 파일
   - Form.resx : 문자열, 이미지, 개체 데이터가 포함된 리소스 파일
+[보기] -> 다른 창\문서 개요
+- Form 내부의 Component 부모 객체 지정
+  - Panel1에 Form의 Component를 옮기기
 
 3. Component 배치
 - 
    
 5. Properties 설정
-6. EventHandler에 들어갈 함수 작성
+- Design : Name (인스턴스 이름)
+- Event : Drag, Command, Mouse, Property, Click, Key, Focus
+
+7. EventHandler에 들어갈 함수 작성
 
 ### 프로젝트 구조
 ```
