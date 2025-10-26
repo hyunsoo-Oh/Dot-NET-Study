@@ -145,7 +145,25 @@ var result = numbers
                 .Select(n => n);
 ```
 ### Reflection / Attribute
+#### Reflection
+Runtime에 객체의 형식Type 정보를 들여다보는 기능
+
+ex. System.Reflection: Type, Assembly, MemberInfo, MethodInfo, PropertyInfo, ConstructorInfo, Activator
+
+#### Attribute
+클래스, 메서드, 프로퍼티, 매개변수 등 코드 요소에 메타데이터를 선언적으로 부착
+
+ex. [System.ComponentModel.DataAnnotations.Required]
 
 ### dynamic
+컴파일 시 타입 검사를 건너뛰고,
 
+**런타임 시점**에 실제 객체의 멤버를 바인딩(접근/호출) 하는 동적 타입 시스템 기능 (동적 바인딩)
+
+```C#
+dynamic obj = "Hello";
+Console.WriteLine(obj.Length);  // string.Length → 정상
+obj = 1234;
+Console.WriteLine(obj.Length);  // 실행 시 오류(RuntimeBinderException)
+```
 ### File Input/Output
