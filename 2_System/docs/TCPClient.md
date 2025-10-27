@@ -49,4 +49,9 @@ private void btnClientConnect_Click(object sender, EventArgs e)
        btnClientConnect.Text = "Connect";
    }
 }
+
+private void btnClientSend_Click(object sender, EventArgs e)
+{
+    client.Send(Encoding.Default.GetBytes(txtClientCommand.Text + '\n'));
+}   
 ```
