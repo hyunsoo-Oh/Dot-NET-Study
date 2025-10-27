@@ -5,6 +5,14 @@
 - 세션 종료: 클라이언트의 역할이 끝나면 연결을 끊어 자원을 해제
 - 단방향 통신: 클라이언트는 서버에 요청을 보내고, 서버는 해당 요청에 대한 응답
 
+## 제어 방법 
+#### TcpClient/TcpListener & Socket 직접 제어
+
+### TcpClient/TcpListener 방식
+
+
+
+---
 ```C#
 private void btnClientConnect_Click(object sender, EventArgs e)
 {
