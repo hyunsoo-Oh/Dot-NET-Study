@@ -5,6 +5,11 @@
 - 다중 연결 처리: 실제 서버는 여러 클라이언트의 접속을 동시에 처리
 - 신뢰성 보장: TCP 프로토콜의 특성상 서버는 클라이언트로부터 데이터 패킷을 모두 받고, 올바른 순서로 재조립되었음을 보장
 
+## 제어 방법 
+#### TcpClient/TcpListener & Socket 직접 제어
+
+### TcpClient/TcpListener 방식
+
 ```C#
 IPEndPoint point = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 5000);
 Socket server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
