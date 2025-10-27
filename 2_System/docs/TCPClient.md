@@ -22,3 +22,31 @@ private void btnClientConnect_Click(object sender, EventArgs e)
     client.Close();
 }
 ```
+
+```C#
+Boolean CurrentClientFlag = false;
+byte[] recv_buff = new byte[1024];
+private void btnClientConnect_Click(object sender, EventArgs e)
+{
+   if (CurrentClientFlag == false)
+   {
+       CurrentClientFlag = true;
+
+       btnClientConnect.Text = "Disconnect";
+       C_point = new IPEndPoint(IPAddress.Parse(txtClientIP.Text), Int32.Parse(txtClientPort.Text));
+       client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+       client.Connect(C_point);
+
+       client.Receive(recv_buff);
+       txtClientLog.AppendText(Encoding.Default.GetString(recv_buff) + '\n');
+   }
+   else if (CurrentClientFlag == true)
+   {
+       CurrentClientFlag = false;
+
+       client.Close();
+       btnClientConnect.Text = "Connect";
+   }
+}
+```
