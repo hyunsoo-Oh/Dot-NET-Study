@@ -2,7 +2,7 @@
 ### UI Component
 ```Plain Text
 1. Serial & TCP/IP 선택 TabPage
-
+  - 화면 전환 : Panel Visible 방식
 2. 설정 그룹 GroupBox
 - Common Component
   - TextBox : cmd
