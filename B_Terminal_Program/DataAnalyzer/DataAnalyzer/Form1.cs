@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,7 +17,21 @@ namespace DataAnalyzer
         public Form1()
         {
             InitializeComponent();
+
+            // 이벤트 중복 연결 방지 후 재연결
+            _serialPort.DataReceived -= _serialPort_DataReceived;
+            _serialPort.DataReceived += _serialPort_DataReceived;
+
+            // 수신 설정: 아두이노 println 기준
+            _serialPort.Encoding = Encoding.ASCII;
+            _serialPort.NewLine = "\n";
+            _serialPort.ReceivedBytesThreshold = 1; // 1바이트만 와도 이벤트 발생
         }
+        IPEndPoint S_point;
+        IPEndPoint C_point;
+        IPEndPoint ip;
+        Socket server;
+        Socket client;
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -47,43 +63,6 @@ namespace DataAnalyzer
             panelSerial.Visible = false;
             panelTCPServer.Visible = false;
             panelTCPClient.Visible = true;
-        }
-
-        private void btnOpen_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btbClose_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnSend_Click(object sender, EventArgs e)
-        {
-            txtCommandLog.AppendText(txtCommand.Text + '\n');
-            txtCommand.Clear();
-        }
-
-        private void txtCommand_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                txtCommandLog.AppendText(txtCommand.Text + '\n');
-                txtCommand.Clear();
-                e.Handled = true;
-                e.SuppressKeyPress = true;
-            }
-        }
-
-        private void btnServerSend_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnServerConnect_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

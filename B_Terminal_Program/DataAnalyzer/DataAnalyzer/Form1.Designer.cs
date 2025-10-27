@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolSerial = new System.Windows.Forms.ToolStripButton();
@@ -36,7 +37,7 @@
             this.panelSerial = new System.Windows.Forms.Panel();
             this.btnSend = new System.Windows.Forms.Button();
             this.txtCommand = new System.Windows.Forms.TextBox();
-            this.btbClose = new System.Windows.Forms.Button();
+            this.btnClose = new System.Windows.Forms.Button();
             this.btnOpen = new System.Windows.Forms.Button();
             this.txtCommandLog = new System.Windows.Forms.RichTextBox();
             this.grpConfig = new System.Windows.Forms.GroupBox();
@@ -70,6 +71,7 @@
             this.txtClientIP = new System.Windows.Forms.TextBox();
             this.lblClientPort = new System.Windows.Forms.Label();
             this.lblClientIP = new System.Windows.Forms.Label();
+            this._serialPort = new System.IO.Ports.SerialPort(this.components);
             this.toolStrip1.SuspendLayout();
             this.panelSerial.SuspendLayout();
             this.grpConfig.SuspendLayout();
@@ -127,7 +129,7 @@
             // 
             this.panelSerial.Controls.Add(this.btnSend);
             this.panelSerial.Controls.Add(this.txtCommand);
-            this.panelSerial.Controls.Add(this.btbClose);
+            this.panelSerial.Controls.Add(this.btnClose);
             this.panelSerial.Controls.Add(this.btnOpen);
             this.panelSerial.Controls.Add(this.txtCommandLog);
             this.panelSerial.Controls.Add(this.grpConfig);
@@ -155,15 +157,15 @@
             this.txtCommand.TabIndex = 4;
             this.txtCommand.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommand_KeyDown);
             // 
-            // btbClose
+            // btnClose
             // 
-            this.btbClose.Location = new System.Drawing.Point(211, 228);
-            this.btbClose.Name = "btbClose";
-            this.btbClose.Size = new System.Drawing.Size(75, 23);
-            this.btbClose.TabIndex = 3;
-            this.btbClose.Text = "Close";
-            this.btbClose.UseVisualStyleBackColor = true;
-            this.btbClose.Click += new System.EventHandler(this.btbClose_Click);
+            this.btnClose.Location = new System.Drawing.Point(211, 228);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(75, 23);
+            this.btnClose.TabIndex = 3;
+            this.btnClose.Text = "Close";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // btnOpen
             // 
@@ -211,6 +213,24 @@
             // cmbCom
             // 
             this.cmbCom.FormattingEnabled = true;
+            this.cmbCom.Items.AddRange(new object[] {
+            "COM1",
+            "COM2",
+            "COM3",
+            "COM4",
+            "COM5",
+            "COM6",
+            "COM7",
+            "COM8",
+            "COM9",
+            "COM10",
+            "COM11",
+            "COM12",
+            "COM13",
+            "COM14",
+            "COM15",
+            "COM16",
+            "COM17"});
             this.cmbCom.Location = new System.Drawing.Point(3, 3);
             this.cmbCom.Name = "cmbCom";
             this.cmbCom.Size = new System.Drawing.Size(121, 23);
@@ -550,7 +570,7 @@
         private System.Windows.Forms.Label lblStop;
         private System.Windows.Forms.Button btnSend;
         private System.Windows.Forms.TextBox txtCommand;
-        private System.Windows.Forms.Button btbClose;
+        private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Button btnOpen;
         private System.Windows.Forms.RichTextBox txtCommandLog;
         private System.Windows.Forms.TextBox txtServerPort;
@@ -569,6 +589,7 @@
         private System.Windows.Forms.TextBox txtClientIP;
         private System.Windows.Forms.Label lblClientPort;
         private System.Windows.Forms.Label lblClientIP;
+        private System.IO.Ports.SerialPort _serialPort;
     }
 }
 

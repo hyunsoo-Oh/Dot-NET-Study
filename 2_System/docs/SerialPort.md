@@ -8,7 +8,7 @@ USB에 들어온 데이터를 드라이버가 SerialPort(가상 COM 포트)에 �
 
 .NET Framework : 2.0, 3.0, 3.5, 4.0, 4.5, 4.5.1, 4.5.2, 4.6, 4.6.1, 4.6.2, 4.7, 4.7.1, 4.7.2, 4.8, 4.8.1
 
-cf).NET : 7.0, 8.0, 9.0 에서 사용하려면 ```dotnet add package System.IO.Ports``` 필요
+cf) .NET : 7.0, 8.0, 9.0 에서 사용하려면 ```dotnet add package System.IO.Ports``` 필요
 
 ### using System.IO.Ports
 ```C#
