@@ -9,8 +9,59 @@
 #### TcpClient/TcpListener & Socket 직접 제어
 
 ### TcpClient/TcpListener 방식
+```C#
+Boolean CurrentClientFlag = false;
+private void btnClientConnect_Click(object sender, EventArgs e)
+{
+    if (CurrentClientFlag == false)
+    {
+        CurrentClientFlag = true;
+        btnClientConnect.Text = "Disconnect";
 
+        Thread thread = new Thread(clientConnect);
+        thread.IsBackground = true;
+        thread.Start();
+    }
+    else if (CurrentClientFlag == true)
+    {
+        CurrentClientFlag = false;
+        btnClientConnect.Text = "Connect";
 
+        stream.Close();
+        client.Close();
+    }
+}
+private void btnClientSend_Click(object sender, EventArgs e)
+{
+    byte[] msg = System.Text.Encoding.UTF8.GetBytes(txtClientCommand.Text + '\n');
+    stream.Write(msg, 0, msg.Length);
+
+    txtClientCommand.Clear();
+}
+
+private void clientConnect()
+{
+    client = new TcpClient();
+    clientIP = new IPEndPoint(IPAddress.Parse(txtClientIP.Text), int.Parse(txtClientPort.Text));
+    client.Connect(clientIP);
+
+    stream = client.GetStream();
+
+    while (client.Connected)
+    {
+        int length;
+        byte[] buffer = new byte[1024];
+
+        while ((length = stream.Read(buffer, 0, buffer.Length)) != 0)
+        {
+            String msg = Encoding.Default.GetString(buffer, 0, length);
+
+            UiLog(txtClientLog, msg);
+        }
+    }
+}
+```
+### Socket 직접 제어 방식
 
 ---
 ```C#
