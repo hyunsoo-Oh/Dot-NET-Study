@@ -11,43 +11,58 @@ namespace DataAnalyzer
 {
     public partial class Form1
     {
+        TcpClient _client;
+        NetworkStream _clientStream;
+
         Boolean CurrentClientFlag = false;
-        byte[] recv_buff = new byte[1024];
         private void btnClientConnect_Click(object sender, EventArgs e)
         {
             if (CurrentClientFlag == false)
             {
                 CurrentClientFlag = true;
-
                 btnClientConnect.Text = "Disconnect";
-                C_point = new IPEndPoint(IPAddress.Parse(txtClientIP.Text), Int32.Parse(txtClientPort.Text));
-                client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-                client.Connect(C_point);
-
-                Thread clientThread = new Thread(ClientToServer);
-                clientThread.IsBackground = true;
-                clientThread.Start();
+                Thread thread = new Thread(clientConnect);
+                thread.IsBackground = true;
+                thread.Start();
             }
             else if (CurrentClientFlag == true)
             {
                 CurrentClientFlag = false;
-
-                byte[] send_data = Encoding.Default.GetBytes("클라이언트와의 연결이 끊어졌습니다.\n");
-                client.Send(send_data, send_data.Length, SocketFlags.None);
-
-                client.Close();
                 btnClientConnect.Text = "Connect";
+
+                _clientStream.Close();
+                _client.Close();
             }
-        }
-        private void ClientToServer()
-        {
-            client.Receive(recv_buff);
-            txtClientLog.AppendText(Encoding.Default.GetString(recv_buff) + '\n');
         }
         private void btnClientSend_Click(object sender, EventArgs e)
         {
-            client.Send(Encoding.Default.GetBytes(txtClientCommand.Text + '\n'));
+            byte[] msg = System.Text.Encoding.UTF8.GetBytes(txtClientCommand.Text + '\n');
+            _clientStream.Write(msg, 0, msg.Length);
+
+            txtClientCommand.Clear();
+        }
+
+        private void clientConnect()
+        {
+            _client = new TcpClient();
+            clientIP = new IPEndPoint(IPAddress.Parse(txtClientIP.Text), int.Parse(txtClientPort.Text));
+            _client.Connect(clientIP);
+
+            _clientStream = _client.GetStream();
+
+            while (_client.Connected)
+            {
+                int length;
+                byte[] buffer = new byte[1024];
+
+                while ((length = _clientStream.Read(buffer, 0, buffer.Length)) != 0)
+                {
+                    String msg = Encoding.Default.GetString(buffer, 0, length);
+
+                    UiLog(txtClientLog, msg);
+                }
+            }
         }
     }
 }

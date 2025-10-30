@@ -458,6 +458,7 @@
             this.btnClientConnect.TabIndex = 15;
             this.btnClientConnect.Text = "Connect";
             this.btnClientConnect.UseVisualStyleBackColor = true;
+            this.btnClientConnect.Click += new System.EventHandler(this.btnClientConnect_Click);
             // 
             // btnClientSend
             // 
@@ -467,6 +468,7 @@
             this.btnClientSend.TabIndex = 14;
             this.btnClientSend.Text = "Send";
             this.btnClientSend.UseVisualStyleBackColor = true;
+            this.btnClientSend.Click += new System.EventHandler(this.btnClientSend_Click);
             // 
             // txtClientCommand
             // 

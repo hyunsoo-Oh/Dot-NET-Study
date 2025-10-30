@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -11,57 +12,62 @@ namespace DataAnalyzer
 {
     public partial class Form1
     {
+        TcpListener _serverListener;
+        TcpClient _serverClient;
+        NetworkStream _serverStream;
+
         Boolean CurrentServerFlag = false;
-        byte[] recv_data = new byte[1024];
         private void btnServerConnect_Click(object sender, EventArgs e)
         {
             if (CurrentServerFlag == false)
             {
                 CurrentServerFlag = true;
-
                 btnServerConnect.Text = "Disconnect";
-                S_point = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 5000);
-                server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                server.Bind(S_point);
-                server.Listen(10);
 
-                client = server.Accept();
-
-                ip = (IPEndPoint)client.RemoteEndPoint;
-
-                byte[] send_data = Encoding.Default.GetBytes("서버에 접속되었습니다.\n");
-                client.Send(send_data, send_data.Length, SocketFlags.None);
-                txtServerLog.AppendText($"클라이언트 {ip}가 접속되었습니다.\n");
-
-                Thread thread1 = new Thread(ServerToClient);
-                thread1.IsBackground = true;
-                thread1.Start();
+                Thread thread = new Thread(ServerConnect);
+                thread.IsBackground = true;
+                thread.Start();
             }
             else if (CurrentServerFlag == true)
             {
                 CurrentServerFlag = false;
-
                 btnServerConnect.Text = "Connect";
-                byte[] send_data = Encoding.Default.GetBytes("서버와의 연결이 끊어졌습니다.\n");
-                server.Send(send_data, send_data.Length, SocketFlags.None);
 
-                client.Close();
-                server.Close();
-            }
-        }
-        private void ServerToClient()
-        {
-            while (true)
-            {
-                if (client.Receive(recv_data) != 0)
-                {
-                    txtServerLog.AppendText(Encoding.Default.GetString(recv_data) + '\n');
-                }
+                _serverStream.Close();
+                _serverClient.Close();
+                UiLog(txtServerLog, "클라이언트와의 연결 종료\n");
             }
         }
         private void btnServerSend_Click(object sender, EventArgs e)
         {
+            byte[] msg = System.Text.Encoding.UTF8.GetBytes(txtServerCommand.Text + '\n');
+            _serverStream.Write(msg, 0, msg.Length);
 
+            txtServerCommand.Clear();
+        }
+        private void ServerConnect()
+        {
+            _serverListener = new TcpListener(IPAddress.Parse(txtServerIP.Text), int.Parse(txtServerPort.Text));
+            _serverListener.Start();
+            UiLog(txtServerLog, "클라이언트와의 연결 대기 중\n");
+
+            _serverClient = _serverListener.AcceptTcpClient();
+            UiLog(txtServerLog, "클라이언트와의 연결\n");
+
+            _serverStream = _serverClient.GetStream();
+
+            while (_serverClient.Connected)
+            {
+                int length;
+                byte[] buffer = new byte[1024];
+
+                while ((length = _serverStream.Read(buffer, 0, buffer.Length)) != 0)
+                {
+                    String msg = Encoding.Default.GetString(buffer, 0, length);
+
+                    UiLog(txtServerLog, msg);
+                }
+            }
         }
     }
 }

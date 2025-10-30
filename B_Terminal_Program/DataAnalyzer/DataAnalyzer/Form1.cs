@@ -27,12 +27,9 @@ namespace DataAnalyzer
             _serialPort.NewLine = "\n";
             _serialPort.ReceivedBytesThreshold = 1; // 1바이트만 와도 이벤트 발생
         }
-        IPEndPoint S_point;
-        IPEndPoint C_point;
+        IPEndPoint serverIP;
+        IPEndPoint clientIP;
         IPEndPoint ip;
-        Socket server;
-        Socket client;
-
         private void Form1_Load(object sender, EventArgs e)
         {
             this.Text = "Terminal - Serial";
@@ -63,6 +60,17 @@ namespace DataAnalyzer
             panelSerial.Visible = false;
             panelTCPServer.Visible = false;
             panelTCPClient.Visible = true;
+        }
+        private void UiLog(RichTextBox box, string msg)
+        {
+            if (box.InvokeRequired)
+            {
+                box.Invoke(new Action<RichTextBox, string>(UiLog), box, msg);
+            }
+            else
+            {
+                box.AppendText(msg);
+            }
         }
     }
 }
