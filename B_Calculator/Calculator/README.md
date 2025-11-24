@@ -1,278 +1,84 @@
+# Calculator 만들기
+#### C# .NET Framework에서 “UI와 도메인 로직 분리”를 연습하기 위한 프로젝트
+## 목표
+#### .NET Framework 4.8 + C#
+ - UI는 WinForms
+→ 화면/입력만 담당, 실제 계산 로직은 별도 클래스로 분리
+
+#### 설계 관점 목표
+ - 버튼/키보드 입력 → 계산 로직 호출 구조 연습
+
+ - Form(mainForm) 과 도메인 로직(Calculator) 분리
+ - WinForms의 포커스/키 입력(KeyDown) 흐름 이해 및 제어
+
+## 구현 기능
+- 정수 기반 기본 사칙연산
+
+ - +, -, ×, ÷ (0으로 나누기 예외 메시지 처리 포함) 
+ - Calculator
+ - 숫자 입력 
+    - 버튼 클릭으로 0~9 입력
+    - 키보드 상단 숫자 키 + 숫자패드(NumPad) 숫자 키 입력 지원 
+ - 결과 출력
+    - = 버튼 클릭 또는 Enter(키보드 / 숫자패드)로 계산 수행
+    - Clear 기능
+    - C : 전체 초기화 (피연산자, 연산자, 표시값 모두 0으로) 
+    - CE : 바로 직전 입력만 0으로 초기화 (표시값만 0으로) 
+ - UI 표시
+    - lblResult 라벨 결과값 출력 (우측 정렬, 숫자 길어지면 오른쪽 정렬 유지)
+    - lblProcess 라벨 FirstOperand Operator SecondOperand 출력
+
+## 프로젝트 구조
+```
+Calculator
+├── mainForm.cs          // UI 이벤트 처리, 키보드/버튼 입력 → Calculator 호출
+│   ├── mainForm.Designer.cs
+│   └── mainForm.resx
+├── Program.cs           // WinForms 진입점
+└── Calculator.cs        // 계산 도메인 로직 (피연산자, 연산자, C/CE, 결과 계산)
+```
+
+## 문제 해결
+### 키패드로만 시작할 때 3 + 20 = 200 이 되는 문제 (WinForms 포커스/Enter 처리)
+#### 증상
+ - 프로그램을 실행한 직후, **숫자패드로만 입력**해서 계산하면 이상 동작 발생
+
+    - 예) 3 → + → 2 → 0 → Enter
+
+    - 기대값: 23, 20, 결과 23 + 20 = 43 또는 3 + 20 = 23 (구현에 따라)
+
+    - 실제: 200, 300 등 엉뚱한 값
+
+**버튼을 한 번 클릭한 이후**에는  
+같은 키패드 입력으로도 **정상 계산**됨
+→ **“처음 키패드로 시작할 때만”** 깨지는 패턴
+#### 원인
+WinForms에서 폼이 처음 뜰 때:
+
+ - 디자이너에서 만든 **첫 번째 버튼(예: btn0)**이 기본 포커스를 가짐
+
+ - 이 상태에서 키보드를 누르면:
+    1. Form의 KeyDown 또는 KeyPress 이벤트
+    2. 포커스를 가진 버튼의 키 처리 / Click 처리
+가 둘 다 실행될 수 있음
+
+#### 해결 방법: 초기 포커스 제거 + KeyPreview 사용
 ```C#
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics.Tracing;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Calculator
+public mainForm()
 {
-    public partial class Form1 : Form
-    {
-        public Form1()
-        {
-            InitializeComponent();
-        }
-        
-        enum Operators
-        {
-            None, Add, Subtract, Multiply, Divide, Result
-        }
+    InitializeComponent();
 
-        Operators CurrentOperator = Operators.None;
-        Boolean OperatorFlag = false;
-        int firstOperand = 0;
-        int secondOperand = 0;
+    // 1) 폼이 키 입력을 먼저 가로채도록
+    this.KeyPreview = true;
 
-        private void btn0_Click(object sender, EventArgs e)
-        {
-            if (OperatorFlag == true)
-            {
-                OperatorFlag = false;
-                lblResult.Text = "0";
-            }
-            string strNumber = lblResult.Text += "0";
-            int number = Int32.Parse(strNumber);
-            lblResult.Text = number.ToString();
-        }
-
-        private void btn1_Click(object sender, EventArgs e)
-        {
-            if (OperatorFlag == true)
-            {
-                OperatorFlag = false;
-                lblResult.Text = "0";
-            }
-            string strNumber = lblResult.Text += "1";
-            int number = Int32.Parse(strNumber);
-            lblResult.Text = number.ToString();
-        }
-
-        private void btn2_Click(object sender, EventArgs e)
-        {
-            if (OperatorFlag == true)
-            {
-                OperatorFlag = false;
-                lblResult.Text = "0";
-            }
-            string strNumber = lblResult.Text += "2";
-            int number = Int32.Parse(strNumber);
-            lblResult.Text = number.ToString();
-        }
-
-        private void btn3_Click(object sender, EventArgs e)
-        {
-            if (OperatorFlag == true)
-            {
-                OperatorFlag = false;
-                lblResult.Text = "0";
-            }
-            string strNumber = lblResult.Text += "3";
-            int number = Int32.Parse(strNumber);
-            lblResult.Text = number.ToString();
-        }
-
-        private void btn4_Click(object sender, EventArgs e)
-        {
-            if (OperatorFlag == true)
-            {
-                OperatorFlag = false;
-                lblResult.Text = "0";
-            }
-            string strNumber = lblResult.Text += "4";
-            int number = Int32.Parse(strNumber);
-            lblResult.Text = number.ToString();
-        }
-
-        private void btn5_Click(object sender, EventArgs e)
-        {
-            if (OperatorFlag == true)
-            {
-                OperatorFlag = false;
-                lblResult.Text = "0";
-            }
-            string strNumber = lblResult.Text += "5";
-            int number = Int32.Parse(strNumber);
-            lblResult.Text = number.ToString();
-        }
-
-        private void btn6_Click(object sender, EventArgs e)
-        {
-            if (OperatorFlag == true)
-            {
-                OperatorFlag = false;
-                lblResult.Text = "0";
-            }
-            string strNumber = lblResult.Text += "6";
-            int number = Int32.Parse(strNumber);
-            lblResult.Text = number.ToString();
-        }
-
-        private void btn7_Click(object sender, EventArgs e)
-        {
-            if (OperatorFlag == true)
-            {
-                OperatorFlag = false;
-                lblResult.Text = "0";
-            }
-            string strNumber = lblResult.Text += "7";
-            int number = Int32.Parse(strNumber);
-            lblResult.Text = number.ToString();
-        }
-
-        private void btn8_Click(object sender, EventArgs e)
-        {
-            if (OperatorFlag == true)
-            {
-                OperatorFlag = false;
-                lblResult.Text = "0";
-            }
-            string strNumber = lblResult.Text += "8";
-            int number = Int32.Parse(strNumber);
-            lblResult.Text = number.ToString();
-        }
-
-        private void btn9_Click(object sender, EventArgs e)
-        {
-            if (OperatorFlag == true)
-            {
-                OperatorFlag = false;
-                lblResult.Text = "0";
-            }
-
-            string strNumber = lblResult.Text += "9";
-            int number = Int32.Parse(strNumber);
-            lblResult.Text = number.ToString();
-        }
-
-        private void btnResult_Click(object sender, EventArgs e)
-        {
-            OperatorFlag = true;
-            secondOperand = Int32.Parse(lblResult.Text);
-            switch (CurrentOperator)
-            {
-                case Operators.Add:
-                    firstOperand += secondOperand;
-                    break;
-                case Operators.Subtract:
-                    firstOperand -= secondOperand;
-                    break;
-                case Operators.Multiply:
-                    firstOperand *= secondOperand;
-                    break;
-                case Operators.Divide:
-                    firstOperand /= secondOperand;
-                    break;
-            }
-            lblResult.Text = firstOperand.ToString();
-        }
-
-        private void btnPlus_Click(object sender, EventArgs e)
-        {
-            firstOperand = Int32.Parse(lblResult.Text);
-            CurrentOperator = Operators.Add;
-            OperatorFlag = true;
-        }
-
-        private void btnMinus_Click(object sender, EventArgs e)
-        {
-            firstOperand = Int32.Parse(lblResult.Text);
-            CurrentOperator = Operators.Subtract;
-            OperatorFlag = true;
-        }
-
-        private void btnMultiple_Click(object sender, EventArgs e)
-        {
-            firstOperand = Int32.Parse(lblResult.Text);
-            CurrentOperator = Operators.Multiply;
-            OperatorFlag = true;
-        }
-
-        private void btnDivide_Click(object sender, EventArgs e)
-        {
-            firstOperand = Int32.Parse(lblResult.Text);
-            CurrentOperator = Operators.Divide;
-            OperatorFlag = true;
-        }
-
-        private void btnPercent_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnDot_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnBack_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnClear_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnClearEntry_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (OperatorFlag == true)
-            {
-                OperatorFlag = false;
-                lblResult.Text = "0";
-            }
-
-            string strNumber = "";
-            int number = 0;
-
-            switch (e.KeyChar)
-            {
-                case '0':
-                    strNumber = lblResult.Text += "0";
-                    break;
-                case '1':
-                    strNumber = lblResult.Text += "1";
-                    break;
-                case '2':
-                    strNumber = lblResult.Text += "2";
-                    break;
-                case '3':
-                    strNumber = lblResult.Text += "3";
-                    break;
-                case '4':
-                    strNumber = lblResult.Text += "4";
-                    break;
-                case '5':
-                    strNumber = lblResult.Text += "5";
-                    break;
-                case '6':
-                    strNumber = lblResult.Text += "6";
-                    break;
-                case '7':
-                    strNumber = lblResult.Text += "7";
-                    break;
-                case '8':
-                    strNumber = lblResult.Text += "8";
-                    break;
-                case '9':
-                    strNumber = lblResult.Text += "9";
-                    break;
-            }
-            e.Handled = true;
-            number = Int32.Parse(strNumber);
-            lblResult.Text = number.ToString();
-        }
-    }
+    // 2) 폼이 실제로 화면에 표시된 뒤에 포커스를 제거하기 위해 Shown 이벤트 등록
+    this.Shown += MainForm_Shown;
 }
+
+private void MainForm_Shown(object sender, EventArgs e)
+{
+    // 폼이 완전히 그려진 후 실행되므로,
+    // 여기서 포커스를 없애면 0 버튼에 파란 포커스가 남지 않음
+    this.ActiveControl = null;
+}                
 ```

@@ -29,6 +29,7 @@ y.Value = 99;
 ### 기본 데이터 형식 (Primitive Types)
 | 구분 | 형식명 (C# 키워드) | .NET 형식명 | 크기 (byte) | 범위 | 설명 |
 | :--- | :--- | :--- | :--- | :--- | :--- |
+| **논리형** | **bool** | System.Boolean | 1 | true / false | 논리형 값 |
 | **정수형** | **sbyte** | System.SByte | 1 | -128 ~ 127 | 부호 있는 8비트 정수 |
 | **정수형** | **byte** | System.Byte | 1 | 0 ~ 255 | 부호 없는 8비트 정수 |
 | **정수형** | **short** | System.Int16 | 2 | -32,768 ~ 32,767 | 부호 있는 16비트 정수 |
@@ -62,13 +63,16 @@ y.Value = 99;
 | **동적 형식** | **dynamic** | `dynamic data = 10;` | 런타임 시 형식 결정 |
 | **컬렉션** | **List<T>**, **Dictionary<TKey, TValue>** | `List<int> list = new();` | 가변 크기 데이터 컨테이너 |
 
+## 형변환
+
+
 ## Boxing vs Unboxing
-### Boxing
+### Boxing : 값을 참조 형식으로 변환
 - 값 형식을 object 형식에 담아 참조 형식으로 변환
     - 데이터를 Heap 메모리에 저장
     - object o = a;
 
-### Unboxing
+### Unboxing : 참조를 값 형식으로 변환
 - 참조 형식에 있는 데이터(Heap)를 object에서 꺼내 값 형식으로 변환
     - 데이터를 Stack 메모리에 저장
     - int c = (int)o;
