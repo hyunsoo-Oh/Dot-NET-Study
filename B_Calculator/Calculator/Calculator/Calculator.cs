@@ -8,8 +8,8 @@ namespace Calculator
 {
     internal class Calculator
     {
-        private int firstOperand = 0;
-        private int secondOperand = 0;
+        private double firstOperand = 0;
+        private double secondOperand = 0;
         private bool operatorFlag = false;
         private string processText = "0";
         // 내부 구현용은 class 내부여 Enum을 구현
@@ -55,7 +55,7 @@ namespace Calculator
         /// <param name="op"></param>
         public void SetOperator(Operators op)
         {
-            firstOperand = Int32.Parse(displayText);
+            firstOperand = Double.Parse(displayText);
             currentOperator = op;
             operatorFlag = true;
         }
@@ -65,7 +65,7 @@ namespace Calculator
         /// </summary>
         public void CalculateResult()
         {
-            secondOperand = Int32.Parse(displayText);
+            secondOperand = Double.Parse(displayText);
 
             switch (currentOperator)
             {
@@ -133,6 +133,39 @@ namespace Calculator
                 }
             }
             displayText = "0";
+        }
+
+        /// <summary>
+        /// Backspace 버튼을 누르면 마지막자리 숫자 제거
+        /// </summary>
+        public void Backspace()
+        {
+            double currentValue = Double.Parse(displayText);
+            if (currentValue == 0)
+            {
+                displayText = "0";
+            }
+            else
+            {
+                displayText = (currentValue / 10).ToString();
+            }
+        }
+
+        /// <summary>
+        /// % 버튼을 누르면 현재값을 100으로 나눔
+        /// </summary>
+        public void ApplyPercent()
+        {
+            double currentValue = Double.Parse(displayText);
+            if (currentValue == 0)
+            {
+                currentValue = 0;
+            }
+            else
+            {
+                currentValue /= 100;
+            }
+            displayText = currentValue.ToString();
         }
 
         /// <summary>

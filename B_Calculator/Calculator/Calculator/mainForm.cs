@@ -135,16 +135,25 @@ namespace Calculator
 
         private void btnPercent_Click(object sender, EventArgs e)
         {
+            calc.ApplyPercent();
+            UpdateDisplay();
             this.ActiveControl = null;
         }
 
         private void btnDot_Click(object sender, EventArgs e)
         {
+            if (!calc.displayText.Contains("."))
+            {
+                calc.displayText += ".";
+                UpdateDisplay();
+            }
             this.ActiveControl = null;
         }
 
         private void btnBack_Click(object sender, EventArgs e)
         {
+            calc.Backspace();
+            UpdateDisplay();
             this.ActiveControl = null;
         }
 
@@ -186,6 +195,13 @@ namespace Calculator
                     break;
                 case Keys.D5:
                 case Keys.NumPad5:
+                    if (e.Shift)
+                    {
+                        calc.ApplyPercent();
+                        e.Handled = true;    // KeyDown 기준에서 처리 완료 표시
+                        UpdateDisplay();
+                        break;
+                    }
                     btn5.PerformClick();
                     break;
                 case Keys.D6:
@@ -222,8 +238,16 @@ namespace Calculator
                     btnResult.PerformClick();
                     break;
                 case Keys.Back:
-                    // 나중에 Backspace 기능 넣을 자리
-                    // calc.Backspace();
+                    calc.Backspace();
+                    UpdateDisplay();
+                    break;
+                case Keys.Decimal:
+                case Keys.OemPeriod:
+                    if (!calc.displayText.Contains("."))
+                    {
+                        calc.displayText += ".";
+                        UpdateDisplay();
+                    }
                     break;
                 default:
                     e.Handled = false;
