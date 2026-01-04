@@ -47,9 +47,12 @@ namespace ProjectRoot
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        ///  Clean up any resources being used.
+        ///  사용 중인 모든 리소스를 정리.
         /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <param name="disposing">
+        ///  true인 경우 관리 리소스를 해제하고,
+        ///  false인 경우 관리되지 않는 리소스만 해제.
+        /// </param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -85,13 +88,11 @@ namespace ProjectRoot
     internal static class Program
     {
         /// <summary>
-        ///  The main entry point for the application.
+        ///  애플리케이션의 진입점(Main Entry Point).
         /// </summary>
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             Application.Run(new Form1());
         }

@@ -1,88 +1,21 @@
-## 계산기 Calculator
-### UI Component
-1. 계산할 숫자 칸 Label
-  - Label Name : lblDisplay
-  - lblDisplay.AutoSize = False
-  - lblDisplay.dock = Top
-  - + font, size 등
+# Component 종류
 
-2. 버튼의 배치할 위치 지정 TableLayoutPanel
-  - > 아이콘을 클릭하여 -> 행 및 열 편집 -> 4행과 4열로 변경 (백분율 25%)
-
-3. 계산기의 숫자 및 연산자 Button
-  - Button Name : btnOne
-  - btnOne.Text : 1
-  - Event 항목 (번개) : Click 항목 더블클릭
-
-### Code
-```C#
-using System;
-using System.Windows.Forms;
-
-namespace Calculator
-{
-    public partial class Form1 : Form
-    {
-        enum Operators
-        {
-            None,
-            Add,
-            Subtract,
-            Multiply,
-            Divide,
-            Result
-        }
-
-        Operators currentOperator = Operators.None;
-        Boolean operatorChangeFlag = false;
-        int firstOperand = 0;
-        int secondOperand = 0;
-
-        public Form1()
-        {
-            InitializeComponent();
-        }
-        private void btnResult_Click(object sender, EventArgs e)
-        {
-            secondOperand = Int32.Parse(lblDisplay.Text);
-            if(currentOperator == Operators.Add)
-            {
-                firstOperand += secondOperand;
-                lblDisplay.Text = firstOperand.ToString();
-            }
-            else if(currentOperator == Operators.Subtract)
-            {
-                firstOperand -= secondOperand;
-                lblDisplay.Text = firstOperand.ToString();
-            }
-            else if (currentOperator == Operators.Multiply)
-            {
-                firstOperand *= secondOperand;
-                lblDisplay.Text = firstOperand.ToString();
-            }
-            else if (currentOperator == Operators.Divide)
-            {
-                if(secondOperand == 0)
-                {
-                    lblDisplay.Text = "0으로 나눌 수 없습니다";
-                }
-                else
-                {
-                    firstOperand /= secondOperand;
-                    lblDisplay.Text = firstOperand.ToString();
-                }
-            }
-        }
-
-        private void btnOne_Click(object sender, EventArgs e)
-        {
-            string strNumber = lblDisplay.Text += "1";
-            int intNumber = Int32.Parse(strNumber);
-            lblDisplay.Text = intNumber.ToString();
-        }
-    }
-}
-```
-```C#
-
-```
+- Label : 화면에 읽기 전용 텍스트를 표시하는 컨트롤.
+- TextBox : 사용자가 문자/숫자를 입력하는 한 줄(또는 멀티라인) 입력 컨트롤.
+- RichTextBox : **서식(폰트/색/정렬)**이 적용된 텍스트를 입력·표시하는 컨트롤.
+- CheckBox : 켜짐/꺼짐(다중 선택 가능) 상태를 선택하는 컨트롤.
+- RadioButton : 같은 그룹(panel, GroupBox)에서 하나만 선택하는 단일 선택 컨트롤.
+- CheckedListBox : 리스트 항목마다 체크 상태를 개별로 선택할 수 있는 리스트 컨트롤.
+- ComboBox : **드롭다운 목록 + 직접 입력(옵션)**을 지원하는 선택 컨트롤.
+- NumericUpDown : 숫자만 입력하고 증감 버튼으로 값 변경하는 컨트롤.
+- ListBox : 여러 항목 중 하나/여러 개를 선택하는 단순 리스트 컨트롤.
+- ListView : 아이콘/열(Column) 등 다양한 보기로 리스트를 고급 표시하는 컨트롤.
+- PictureBox : 이미지(비트맵 등)를 표시하는 컨트롤.
+- H/V ScrollBar : 화면/값을 수평(H)/수직(V)으로 스크롤하는 바 컨트롤.
+- TrackBar : 슬라이더를 드래그해서 범위 내 값을 연속/단계적으로 조절하는 컨트롤.
+- TreeView : 폴더 구조처럼 계층(트리) 데이터를 펼치고 선택하는 컨트롤.
+- Timer : 일정 시간 간격으로 이벤트를 발생시켜 주기 작업을 돌리는 컴포넌트.
+- Web Browser : 폼 안에서 웹 페이지를 렌더링/탐색하는 컨트롤.
+- Open & Save FileDialog : 파일 열기/저장 경로를 선택하는 표준 다이얼로그.
+- Drawing : Graphics로 화면/이미지에 도형·텍스트 등을 직접 그리는 작업(렌더링).
+- Chart : 데이터를 그래프(선/막대/파이 등)로 시각화하는 컨트롤.
