@@ -26,15 +26,15 @@ MVC
 ├── Models/      : 데이터/도메인 로직
 └── View/        : UI 관련 - 컨트롤러가 붙을 이벤트만 노출 + UI 업데이트 함수 제공
 
-Button **클릭** → View **이벤트 발생** → Controller**가 구독** → Model **변경** → View **갱신**
-1. **사용자가 버튼을 클릭**
-2. WinForms **내부에서** btnInc.Click **이벤트 발생**
-3. **람다 함수 실행**
-4. View가 IncClicked **이벤트를 발생시킴
+Button 클릭 → View 이벤트 발생 → Controller가 구독 → Model 변경 → View 갱신
+1. 사용자가 버튼을 클릭
+2. WinForms 내부에서 btnInc.Click 이벤트 발생
+3. 람다 함수 실행
+4. View가 IncClicked 이벤트를 발생시킴
 
 “WinForms MVC에서는
 버튼 클릭 이벤트를 람다 또는 메서드로 View 이벤트에 연결할 수 있으며,
-두 방식은 동등하고 Controller에는 UI 의존성이 없습니다.”**
+두 방식은 동등하고 Controller에는 UI 의존성이 없습니다.”
 ```
 
 **Model/CounterModel.cs**
@@ -42,7 +42,7 @@ Button **클릭** → View **이벤트 발생** → Controller**가 구독** →
 ```csharp
 public class CounterModel
 {
-    **// 현재 카운트 값**
+    // 현재 카운트 값**
     public int Count { get; private set; } = 0;
     
     public void Increment() **// 값 증가**
@@ -73,16 +73,16 @@ public partial class MainForm : Form
     
     public MainForm()
     {
-		    InitializeComponent();
-		    
-		    model = new CounterModel();
-		    controller = new CounterController(this, model);
+	    InitializeComponent();
+	    
+	    model = new CounterModel();
+	    controller = new CounterController(this, model);
         
-        **// View는 "버튼 클릭"을 직접 처리하지 않고 이벤트만 던진다.**
+        // View는 "버튼 클릭"을 직접 처리하지 않고 이벤트만 던진다.**
         btnInc.Click += (s, e) => IncClicked?.Invoke(this, EventArgs.Empty);
         btnReset.Click += btnReset_Click;
-		}
-    **// 컨트롤러가 호출하는 "화면 갱신" 함수**
+	}
+    // 컨트롤러가 호출하는 "화면 갱신" 함수**
     public void SetCountText(int count)
     {
         lblCount.Text = $"Count: {count}";
@@ -90,7 +90,7 @@ public partial class MainForm : Form
     private void btnReset_Click(object sender, EventArgs e)
     {
 		    ResetClicked?.Invoke(this, EventArgs.Empty);
-		}
+	}
 }
 ```
 
@@ -107,11 +107,11 @@ public class CounterController
         _view = view;
         _model = model;
 
-        **// View 이벤트 연결**
+        // View 이벤트 연결**
         _view.IncClicked += OnIncClicked;
         _view.ResetClicked += OnResetClicked;
 
-        **// 초기 화면 갱신**
+        // 초기 화면 갱신**
         UpdateView();
     }
 

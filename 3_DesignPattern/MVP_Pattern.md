@@ -40,19 +40,12 @@ Button 클릭 → View 이벤트 발생 → Presenter가 구독 → Model 변경
 7. Presenter가 View 인터페이스를 통해 화면 갱신
 ```
 
-```csharp
-private void MVPBtn_Click(object sender, RoutedEventArgs e)
-{
-		
-}
-```
-
 **Model/CounterModel.cs**
 
 ```csharp
 public class CounterModel
 {
-    **// 현재 카운트 값**
+    // 현재 카운트 값**
     public int Count { get; private set; } = 0;
     
     public void Increment() **// 값 증가**
@@ -83,24 +76,24 @@ public partial class MainForm : Form
     
     public MainForm()
     {
-		    InitializeComponent();
+		InitializeComponent();
 		    
-		    model = new CounterModel();
-		    presenter= new CounterPresenter(this, model);
+	    model = new CounterModel();
+	    presenter= new CounterPresenter(this, model);
         
-        **// View는 "버튼 클릭"을 직접 처리하지 않고 이벤트만 던진다.**
+        // View는 "버튼 클릭"을 직접 처리하지 않고 이벤트만 던진다.**
         btnInc.Click += (s, e) => IncClicked?.Invoke(this, EventArgs.Empty);
         btnReset.Click += btnReset_Click;
 		}
-    **// 컨트롤러가 호출하는 "화면 갱신" 함수**
+    // 컨트롤러가 호출하는 "화면 갱신" 함수**
     public void SetCountText(int count)
     {
         lblCount.Text = $"Count: {count}";
     }
     private void btnReset_Click(object sender, EventArgs e)
     {
-		    ResetClicked?.Invoke(this, EventArgs.Empty);
-		}
+	    ResetClicked?.Invoke(this, EventArgs.Empty);
+	}
 }
 ```
 
@@ -117,11 +110,11 @@ public class CounterPresenter
         _view = view;
         _model = model;
 
-        **// View 이벤트 연결**
+        // View 이벤트 연결**
         _view.IncClicked += OnIncClicked;
         _view.ResetClicked += OnResetClicked;
 
-        **// 초기 화면 갱신**
+        // 초기 화면 갱신**
         UpdateView();
     }
 

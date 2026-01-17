@@ -114,11 +114,25 @@ maskedTextBox.Mask = "0000-00-00"; // YYYY-MM-DD
 
 #### **Button** : **클릭/탭**으로 특정 동작(명령/이벤트)을 실행하는 컨트롤.
 ```C#
+/* ==== Designer ==== */
+// Text         = 버튼의 글씨
+// DialogResult = 모달 폼에서 OK / Cancel 설정 가능
 
+/* ==== Code (form.cs) ==== */
+// 버튼 비활성/활성
+button.Enabled = false;
+button.Enabled = true;
+
+void button_Click(object sender, EventArgs e)
+{
+    // 명령 실행 로직
+    button.Text = "처리 중..."; // 버튼 텍스트 변경
+}
 ```
 
 #### **MessageBox** : **알림/경고/확인(Yes·No 등)** 메시지를 모달 창으로 표시하고 사용자 응답을 받는 컨트롤.
 ```C#
+/* ==== Code (form.cs) ==== */
 DialogResult result = MessageBox.Show(
     "정말 종료하시겠습니까?", // 내용  
     "종료 확인",            // 제목
@@ -134,10 +148,47 @@ if (result == DialogResult.No)
 
 #### **LinkLabel** : 웹 링크처럼 클릭 가능한 텍스트를 표시하는 컨트롤.
 ```C#
+/* ==== Designer ==== */
+// Text      = "공식 홈페이지"
+// AutoSize  = true
+// LinkColor = Blue
+// ActiveLinkColor = Red
+// VisitedLinkColor = Purple
 
+/* ==== Code (form.cs) ==== */
+void linkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+{
+    // 기본 브라우저로 URL 열기
+    System.Diagnostics.Process.Start(
+        new System.Diagnostics.ProcessStartInfo
+        {
+            FileName = "https://example.com",
+            UseShellExecute = true
+        }
+    );
+
+    // 방문 처리
+    linkLabel.LinkVisited = true;
+}
 ```
 
 #### **ToolTip** : 컨트롤에 마우스를 올렸을 때 보조 설명을 표시하는 컴포넌트.
 ```C#
+/* ==== Designer ==== */
+// ToolTip 컴포넌트(toolTip1) 추가
+// AutoPopDelay = 5000  : 툴팁이 표시된 후 자동으로 사라지기까지의 시간 (ms)
+// InitialDelay = 500   : 마우스를 컨트롤 위에 올린 후 툴팁이 처음 나타나기까지의 지연 시간 (ms)
+// ReshowDelay  = 100   : 다른 컨트롤로 이동했을 때 다시 표시되기까지의 지연 시간 (ms)
+// ShowAlways   = false : 폼이 비활성화(비포커스) 상태여도 툴팁 표시 여부
 
+/* ==== Code (form.cs) ==== */
+// ToolTip 1개를 공유하고 SetToolTip()으로 관리
+// 버튼에 툴팁 설정
+toolTip.SetToolTip(button_Connect, "클릭하면 작업을 시작합니다.");
+
+// 텍스트박스에 툴팁 설정
+toolTip.SetToolTip(textBox_Log, "숫자만 입력 가능합니다.");
+
+// 런타임에서 변경
+toolTip.SetToolTip(button_Disconnect, "현재 비활성 상태입니다.");
 ```
