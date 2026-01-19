@@ -1,6 +1,6 @@
-﻿namespace DataAnalyzer
+﻿namespace TerminalProgram
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// 필수 디자이너 변수입니다.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolSerial = new System.Windows.Forms.ToolStripButton();
             this.toolTCPServer = new System.Windows.Forms.ToolStripButton();
@@ -63,15 +63,19 @@
             this.lblServerPort = new System.Windows.Forms.Label();
             this.lblServerAddress = new System.Windows.Forms.Label();
             this.panelTCPClient = new System.Windows.Forms.Panel();
-            this.btnClientConnect = new System.Windows.Forms.Button();
-            this.btnClientSend = new System.Windows.Forms.Button();
             this.txtClientCommand = new System.Windows.Forms.TextBox();
+            this.btnClientConnect = new System.Windows.Forms.Button();
             this.txtClientLog = new System.Windows.Forms.RichTextBox();
             this.txtClientPort = new System.Windows.Forms.TextBox();
             this.txtClientIP = new System.Windows.Forms.TextBox();
+            this.btnClientSend = new System.Windows.Forms.Button();
             this.lblClientPort = new System.Windows.Forms.Label();
             this.lblClientIP = new System.Windows.Forms.Label();
             this._serialPort = new System.IO.Ports.SerialPort(this.components);
+            this.tabControl_Transport = new System.Windows.Forms.TabControl();
+            this.tabPage_Serial = new System.Windows.Forms.TabPage();
+            this.tabPage_Server = new System.Windows.Forms.TabPage();
+            this.tabPage_Client = new System.Windows.Forms.TabPage();
             this.toolStrip1.SuspendLayout();
             this.panelSerial.SuspendLayout();
             this.grpConfig.SuspendLayout();
@@ -79,6 +83,10 @@
             this.flowLayoutPanel1.SuspendLayout();
             this.panelTCPServer.SuspendLayout();
             this.panelTCPClient.SuspendLayout();
+            this.tabControl_Transport.SuspendLayout();
+            this.tabPage_Serial.SuspendLayout();
+            this.tabPage_Server.SuspendLayout();
+            this.tabPage_Client.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -90,7 +98,7 @@
             this.toolTCPClient});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(800, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1000, 34);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -100,9 +108,8 @@
             this.toolSerial.Image = ((System.Drawing.Image)(resources.GetObject("toolSerial.Image")));
             this.toolSerial.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolSerial.Name = "toolSerial";
-            this.toolSerial.Size = new System.Drawing.Size(40, 22);
+            this.toolSerial.Size = new System.Drawing.Size(59, 29);
             this.toolSerial.Text = "Serial";
-            this.toolSerial.Click += new System.EventHandler(this.toolSerial_Click);
             // 
             // toolTCPServer
             // 
@@ -110,10 +117,9 @@
             this.toolTCPServer.Image = ((System.Drawing.Image)(resources.GetObject("toolTCPServer.Image")));
             this.toolTCPServer.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolTCPServer.Name = "toolTCPServer";
-            this.toolTCPServer.Size = new System.Drawing.Size(84, 22);
+            this.toolTCPServer.Size = new System.Drawing.Size(126, 29);
             this.toolTCPServer.Text = "TCP/IP Server";
             this.toolTCPServer.ToolTipText = "TCP/IP Server";
-            this.toolTCPServer.Click += new System.EventHandler(this.toolTCPServer_Click);
             // 
             // toolTCPClient
             // 
@@ -121,9 +127,8 @@
             this.toolTCPClient.Image = ((System.Drawing.Image)(resources.GetObject("toolTCPClient.Image")));
             this.toolTCPClient.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolTCPClient.Name = "toolTCPClient";
-            this.toolTCPClient.Size = new System.Drawing.Size(82, 22);
+            this.toolTCPClient.Size = new System.Drawing.Size(120, 29);
             this.toolTCPClient.Text = "TCP/IP Client";
-            this.toolTCPClient.Click += new System.EventHandler(this.toolTCPClient_Click);
             // 
             // panelSerial
             // 
@@ -134,16 +139,18 @@
             this.panelSerial.Controls.Add(this.txtCommandLog);
             this.panelSerial.Controls.Add(this.grpConfig);
             this.panelSerial.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelSerial.Location = new System.Drawing.Point(0, 0);
+            this.panelSerial.Location = new System.Drawing.Point(3, 3);
+            this.panelSerial.Margin = new System.Windows.Forms.Padding(4);
             this.panelSerial.Name = "panelSerial";
-            this.panelSerial.Size = new System.Drawing.Size(800, 450);
+            this.panelSerial.Size = new System.Drawing.Size(986, 468);
             this.panelSerial.TabIndex = 1;
             // 
             // btnSend
             // 
-            this.btnSend.Location = new System.Drawing.Point(713, 215);
+            this.btnSend.Location = new System.Drawing.Point(876, 231);
+            this.btnSend.Margin = new System.Windows.Forms.Padding(4);
             this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(75, 25);
+            this.btnSend.Size = new System.Drawing.Size(94, 30);
             this.btnSend.TabIndex = 5;
             this.btnSend.Text = "Send";
             this.btnSend.UseVisualStyleBackColor = true;
@@ -151,17 +158,19 @@
             // 
             // txtCommand
             // 
-            this.txtCommand.Location = new System.Drawing.Point(347, 215);
+            this.txtCommand.Location = new System.Drawing.Point(419, 231);
+            this.txtCommand.Margin = new System.Windows.Forms.Padding(4);
             this.txtCommand.Name = "txtCommand";
-            this.txtCommand.Size = new System.Drawing.Size(358, 25);
+            this.txtCommand.Size = new System.Drawing.Size(446, 28);
             this.txtCommand.TabIndex = 4;
             this.txtCommand.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommand_KeyDown);
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(211, 228);
+            this.btnClose.Location = new System.Drawing.Point(520, 195);
+            this.btnClose.Margin = new System.Windows.Forms.Padding(4);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(75, 23);
+            this.btnClose.Size = new System.Drawing.Size(94, 28);
             this.btnClose.TabIndex = 3;
             this.btnClose.Text = "Close";
             this.btnClose.UseVisualStyleBackColor = true;
@@ -169,9 +178,10 @@
             // 
             // btnOpen
             // 
-            this.btnOpen.Location = new System.Drawing.Point(130, 228);
+            this.btnOpen.Location = new System.Drawing.Point(418, 195);
+            this.btnOpen.Margin = new System.Windows.Forms.Padding(4);
             this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(75, 23);
+            this.btnOpen.Size = new System.Drawing.Size(94, 28);
             this.btnOpen.TabIndex = 2;
             this.btnOpen.Text = "Open";
             this.btnOpen.UseVisualStyleBackColor = true;
@@ -179,9 +189,10 @@
             // 
             // txtCommandLog
             // 
-            this.txtCommandLog.Location = new System.Drawing.Point(15, 257);
+            this.txtCommandLog.Location = new System.Drawing.Point(15, 269);
+            this.txtCommandLog.Margin = new System.Windows.Forms.Padding(4);
             this.txtCommandLog.Name = "txtCommandLog";
-            this.txtCommandLog.Size = new System.Drawing.Size(773, 169);
+            this.txtCommandLog.Size = new System.Drawing.Size(955, 179);
             this.txtCommandLog.TabIndex = 1;
             this.txtCommandLog.Text = "";
             // 
@@ -189,9 +200,11 @@
             // 
             this.grpConfig.Controls.Add(this.flowLayoutPanel2);
             this.grpConfig.Controls.Add(this.flowLayoutPanel1);
-            this.grpConfig.Location = new System.Drawing.Point(12, 39);
+            this.grpConfig.Location = new System.Drawing.Point(11, 8);
+            this.grpConfig.Margin = new System.Windows.Forms.Padding(4);
             this.grpConfig.Name = "grpConfig";
-            this.grpConfig.Size = new System.Drawing.Size(277, 183);
+            this.grpConfig.Padding = new System.Windows.Forms.Padding(4);
+            this.grpConfig.Size = new System.Drawing.Size(346, 235);
             this.grpConfig.TabIndex = 0;
             this.grpConfig.TabStop = false;
             this.grpConfig.Text = "Port Config";
@@ -205,9 +218,10 @@
             this.flowLayoutPanel2.Controls.Add(this.cmbStop);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Right;
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(122, 21);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(152, 25);
+            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(152, 159);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(190, 206);
             this.flowLayoutPanel2.TabIndex = 1;
             // 
             // cmbCom
@@ -231,9 +245,10 @@
             "COM15",
             "COM16",
             "COM17"});
-            this.cmbCom.Location = new System.Drawing.Point(3, 3);
+            this.cmbCom.Location = new System.Drawing.Point(4, 4);
+            this.cmbCom.Margin = new System.Windows.Forms.Padding(4);
             this.cmbCom.Name = "cmbCom";
-            this.cmbCom.Size = new System.Drawing.Size(121, 23);
+            this.cmbCom.Size = new System.Drawing.Size(150, 26);
             this.cmbCom.TabIndex = 0;
             // 
             // cmbBaud
@@ -245,9 +260,10 @@
             "19200",
             "38400",
             "115200"});
-            this.cmbBaud.Location = new System.Drawing.Point(3, 32);
+            this.cmbBaud.Location = new System.Drawing.Point(4, 38);
+            this.cmbBaud.Margin = new System.Windows.Forms.Padding(4);
             this.cmbBaud.Name = "cmbBaud";
-            this.cmbBaud.Size = new System.Drawing.Size(121, 23);
+            this.cmbBaud.Size = new System.Drawing.Size(150, 26);
             this.cmbBaud.TabIndex = 1;
             // 
             // cmbData
@@ -257,9 +273,10 @@
             "7",
             "8",
             "9"});
-            this.cmbData.Location = new System.Drawing.Point(3, 61);
+            this.cmbData.Location = new System.Drawing.Point(4, 72);
+            this.cmbData.Margin = new System.Windows.Forms.Padding(4);
             this.cmbData.Name = "cmbData";
-            this.cmbData.Size = new System.Drawing.Size(121, 23);
+            this.cmbData.Size = new System.Drawing.Size(150, 26);
             this.cmbData.TabIndex = 2;
             // 
             // cmbParity
@@ -269,9 +286,10 @@
             "None",
             "Odd",
             "Even"});
-            this.cmbParity.Location = new System.Drawing.Point(3, 90);
+            this.cmbParity.Location = new System.Drawing.Point(4, 106);
+            this.cmbParity.Margin = new System.Windows.Forms.Padding(4);
             this.cmbParity.Name = "cmbParity";
-            this.cmbParity.Size = new System.Drawing.Size(121, 23);
+            this.cmbParity.Size = new System.Drawing.Size(150, 26);
             this.cmbParity.TabIndex = 3;
             // 
             // cmbStop
@@ -280,9 +298,10 @@
             this.cmbStop.Items.AddRange(new object[] {
             "1",
             "2"});
-            this.cmbStop.Location = new System.Drawing.Point(3, 119);
+            this.cmbStop.Location = new System.Drawing.Point(4, 140);
+            this.cmbStop.Margin = new System.Windows.Forms.Padding(4);
             this.cmbStop.Name = "cmbStop";
-            this.cmbStop.Size = new System.Drawing.Size(121, 23);
+            this.cmbStop.Size = new System.Drawing.Size(150, 26);
             this.cmbStop.TabIndex = 4;
             // 
             // flowLayoutPanel1
@@ -294,58 +313,59 @@
             this.flowLayoutPanel1.Controls.Add(this.lblStop);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 21);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(4, 25);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(113, 159);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(141, 206);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // lblCom
             // 
             this.lblCom.AutoSize = true;
-            this.lblCom.Location = new System.Drawing.Point(3, 7);
-            this.lblCom.Margin = new System.Windows.Forms.Padding(3, 7, 3, 14);
+            this.lblCom.Location = new System.Drawing.Point(4, 8);
+            this.lblCom.Margin = new System.Windows.Forms.Padding(4, 8, 4, 17);
             this.lblCom.Name = "lblCom";
-            this.lblCom.Size = new System.Drawing.Size(41, 15);
+            this.lblCom.Size = new System.Drawing.Size(48, 18);
             this.lblCom.TabIndex = 0;
             this.lblCom.Text = "COM";
             // 
             // lblBaud
             // 
             this.lblBaud.AutoSize = true;
-            this.lblBaud.Location = new System.Drawing.Point(3, 36);
-            this.lblBaud.Margin = new System.Windows.Forms.Padding(3, 0, 3, 14);
+            this.lblBaud.Location = new System.Drawing.Point(4, 43);
+            this.lblBaud.Margin = new System.Windows.Forms.Padding(4, 0, 4, 17);
             this.lblBaud.Name = "lblBaud";
-            this.lblBaud.Size = new System.Drawing.Size(71, 15);
+            this.lblBaud.Size = new System.Drawing.Size(85, 18);
             this.lblBaud.TabIndex = 1;
             this.lblBaud.Text = "BaudRate";
             // 
             // lblData
             // 
             this.lblData.AutoSize = true;
-            this.lblData.Location = new System.Drawing.Point(3, 65);
-            this.lblData.Margin = new System.Windows.Forms.Padding(3, 0, 3, 14);
+            this.lblData.Location = new System.Drawing.Point(4, 78);
+            this.lblData.Margin = new System.Windows.Forms.Padding(4, 0, 4, 17);
             this.lblData.Name = "lblData";
-            this.lblData.Size = new System.Drawing.Size(65, 15);
+            this.lblData.Size = new System.Drawing.Size(78, 18);
             this.lblData.TabIndex = 2;
             this.lblData.Text = "Data bits";
             // 
             // lblParity
             // 
             this.lblParity.AutoSize = true;
-            this.lblParity.Location = new System.Drawing.Point(3, 94);
-            this.lblParity.Margin = new System.Windows.Forms.Padding(3, 0, 3, 14);
+            this.lblParity.Location = new System.Drawing.Point(4, 113);
+            this.lblParity.Margin = new System.Windows.Forms.Padding(4, 0, 4, 17);
             this.lblParity.Name = "lblParity";
-            this.lblParity.Size = new System.Drawing.Size(44, 15);
+            this.lblParity.Size = new System.Drawing.Size(53, 18);
             this.lblParity.TabIndex = 3;
             this.lblParity.Text = "Parity";
             // 
             // lblStop
             // 
             this.lblStop.AutoSize = true;
-            this.lblStop.Location = new System.Drawing.Point(3, 123);
-            this.lblStop.Margin = new System.Windows.Forms.Padding(3, 0, 3, 14);
+            this.lblStop.Location = new System.Drawing.Point(4, 148);
+            this.lblStop.Margin = new System.Windows.Forms.Padding(4, 0, 4, 17);
             this.lblStop.Name = "lblStop";
-            this.lblStop.Size = new System.Drawing.Size(66, 15);
+            this.lblStop.Size = new System.Drawing.Size(79, 18);
             this.lblStop.TabIndex = 4;
             this.lblStop.Text = "Stop bits";
             // 
@@ -360,17 +380,18 @@
             this.panelTCPServer.Controls.Add(this.lblServerPort);
             this.panelTCPServer.Controls.Add(this.lblServerAddress);
             this.panelTCPServer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelTCPServer.Location = new System.Drawing.Point(0, 0);
+            this.panelTCPServer.Location = new System.Drawing.Point(3, 3);
+            this.panelTCPServer.Margin = new System.Windows.Forms.Padding(4);
             this.panelTCPServer.Name = "panelTCPServer";
-            this.panelTCPServer.Size = new System.Drawing.Size(800, 450);
+            this.panelTCPServer.Size = new System.Drawing.Size(986, 468);
             this.panelTCPServer.TabIndex = 2;
-            this.panelTCPServer.Visible = false;
             // 
             // btnServerConnect
             // 
-            this.btnServerConnect.Location = new System.Drawing.Point(602, 67);
+            this.btnServerConnect.Location = new System.Drawing.Point(743, 24);
+            this.btnServerConnect.Margin = new System.Windows.Forms.Padding(4);
             this.btnServerConnect.Name = "btnServerConnect";
-            this.btnServerConnect.Size = new System.Drawing.Size(166, 47);
+            this.btnServerConnect.Size = new System.Drawing.Size(208, 56);
             this.btnServerConnect.TabIndex = 7;
             this.btnServerConnect.Text = "Connect";
             this.btnServerConnect.UseVisualStyleBackColor = true;
@@ -378,9 +399,10 @@
             // 
             // btnServerSend
             // 
-            this.btnServerSend.Location = new System.Drawing.Point(693, 401);
+            this.btnServerSend.Location = new System.Drawing.Point(857, 408);
+            this.btnServerSend.Margin = new System.Windows.Forms.Padding(4);
             this.btnServerSend.Name = "btnServerSend";
-            this.btnServerSend.Size = new System.Drawing.Size(75, 25);
+            this.btnServerSend.Size = new System.Drawing.Size(94, 30);
             this.btnServerSend.TabIndex = 6;
             this.btnServerSend.Text = "Send";
             this.btnServerSend.UseVisualStyleBackColor = true;
@@ -388,149 +410,213 @@
             // 
             // txtServerCommand
             // 
-            this.txtServerCommand.Location = new System.Drawing.Point(30, 401);
+            this.txtServerCommand.Location = new System.Drawing.Point(29, 408);
+            this.txtServerCommand.Margin = new System.Windows.Forms.Padding(4);
             this.txtServerCommand.Name = "txtServerCommand";
-            this.txtServerCommand.Size = new System.Drawing.Size(657, 25);
+            this.txtServerCommand.Size = new System.Drawing.Size(820, 28);
             this.txtServerCommand.TabIndex = 5;
+            this.txtServerCommand.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtServerCommand_KeyDown);
             // 
             // txtServerLog
             // 
-            this.txtServerLog.Location = new System.Drawing.Point(30, 125);
+            this.txtServerLog.Location = new System.Drawing.Point(29, 94);
+            this.txtServerLog.Margin = new System.Windows.Forms.Padding(4);
             this.txtServerLog.Name = "txtServerLog";
-            this.txtServerLog.Size = new System.Drawing.Size(738, 256);
+            this.txtServerLog.Size = new System.Drawing.Size(922, 306);
             this.txtServerLog.TabIndex = 4;
             this.txtServerLog.Text = "";
             // 
             // txtServerPort
             // 
-            this.txtServerPort.Location = new System.Drawing.Point(312, 89);
+            this.txtServerPort.Location = new System.Drawing.Point(381, 51);
+            this.txtServerPort.Margin = new System.Windows.Forms.Padding(4);
             this.txtServerPort.Name = "txtServerPort";
-            this.txtServerPort.Size = new System.Drawing.Size(100, 25);
+            this.txtServerPort.Size = new System.Drawing.Size(124, 28);
             this.txtServerPort.TabIndex = 3;
+            this.txtServerPort.Text = "5000";
             // 
             // txtServerIP
             // 
-            this.txtServerIP.Location = new System.Drawing.Point(30, 89);
+            this.txtServerIP.Location = new System.Drawing.Point(29, 51);
+            this.txtServerIP.Margin = new System.Windows.Forms.Padding(4);
             this.txtServerIP.Name = "txtServerIP";
-            this.txtServerIP.Size = new System.Drawing.Size(235, 25);
+            this.txtServerIP.Size = new System.Drawing.Size(293, 28);
             this.txtServerIP.TabIndex = 2;
+            this.txtServerIP.Text = "127.0.0.1";
             // 
             // lblServerPort
             // 
             this.lblServerPort.AutoSize = true;
-            this.lblServerPort.Location = new System.Drawing.Point(309, 64);
+            this.lblServerPort.Location = new System.Drawing.Point(377, 21);
+            this.lblServerPort.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblServerPort.Name = "lblServerPort";
-            this.lblServerPort.Size = new System.Drawing.Size(34, 15);
+            this.lblServerPort.Size = new System.Drawing.Size(41, 18);
             this.lblServerPort.TabIndex = 1;
             this.lblServerPort.Text = "Port";
             // 
             // lblServerAddress
             // 
             this.lblServerAddress.AutoSize = true;
-            this.lblServerAddress.Location = new System.Drawing.Point(27, 64);
+            this.lblServerAddress.Location = new System.Drawing.Point(25, 21);
+            this.lblServerAddress.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblServerAddress.Name = "lblServerAddress";
-            this.lblServerAddress.Size = new System.Drawing.Size(78, 15);
+            this.lblServerAddress.Size = new System.Drawing.Size(155, 18);
             this.lblServerAddress.TabIndex = 0;
-            this.lblServerAddress.Text = "IP Address";
+            this.lblServerAddress.Text = "Server IP Address";
             // 
             // panelTCPClient
             // 
-            this.panelTCPClient.Controls.Add(this.btnClientConnect);
-            this.panelTCPClient.Controls.Add(this.btnClientSend);
             this.panelTCPClient.Controls.Add(this.txtClientCommand);
+            this.panelTCPClient.Controls.Add(this.btnClientConnect);
             this.panelTCPClient.Controls.Add(this.txtClientLog);
             this.panelTCPClient.Controls.Add(this.txtClientPort);
             this.panelTCPClient.Controls.Add(this.txtClientIP);
+            this.panelTCPClient.Controls.Add(this.btnClientSend);
             this.panelTCPClient.Controls.Add(this.lblClientPort);
             this.panelTCPClient.Controls.Add(this.lblClientIP);
             this.panelTCPClient.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTCPClient.Location = new System.Drawing.Point(0, 0);
+            this.panelTCPClient.Margin = new System.Windows.Forms.Padding(4);
             this.panelTCPClient.Name = "panelTCPClient";
-            this.panelTCPClient.Size = new System.Drawing.Size(800, 450);
+            this.panelTCPClient.Size = new System.Drawing.Size(992, 474);
             this.panelTCPClient.TabIndex = 3;
-            this.panelTCPClient.Visible = false;
+            // 
+            // txtClientCommand
+            // 
+            this.txtClientCommand.Location = new System.Drawing.Point(35, 414);
+            this.txtClientCommand.Margin = new System.Windows.Forms.Padding(4);
+            this.txtClientCommand.Name = "txtClientCommand";
+            this.txtClientCommand.Size = new System.Drawing.Size(820, 28);
+            this.txtClientCommand.TabIndex = 13;
+            this.txtClientCommand.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtClientCommand_KeyDown);
             // 
             // btnClientConnect
             // 
-            this.btnClientConnect.Location = new System.Drawing.Point(602, 67);
+            this.btnClientConnect.Location = new System.Drawing.Point(749, 30);
+            this.btnClientConnect.Margin = new System.Windows.Forms.Padding(4);
             this.btnClientConnect.Name = "btnClientConnect";
-            this.btnClientConnect.Size = new System.Drawing.Size(166, 47);
+            this.btnClientConnect.Size = new System.Drawing.Size(208, 56);
             this.btnClientConnect.TabIndex = 15;
             this.btnClientConnect.Text = "Connect";
             this.btnClientConnect.UseVisualStyleBackColor = true;
             this.btnClientConnect.Click += new System.EventHandler(this.btnClientConnect_Click);
             // 
-            // btnClientSend
-            // 
-            this.btnClientSend.Location = new System.Drawing.Point(693, 401);
-            this.btnClientSend.Name = "btnClientSend";
-            this.btnClientSend.Size = new System.Drawing.Size(75, 25);
-            this.btnClientSend.TabIndex = 14;
-            this.btnClientSend.Text = "Send";
-            this.btnClientSend.UseVisualStyleBackColor = true;
-            this.btnClientSend.Click += new System.EventHandler(this.btnClientSend_Click);
-            // 
-            // txtClientCommand
-            // 
-            this.txtClientCommand.Location = new System.Drawing.Point(30, 401);
-            this.txtClientCommand.Name = "txtClientCommand";
-            this.txtClientCommand.Size = new System.Drawing.Size(657, 25);
-            this.txtClientCommand.TabIndex = 13;
-            // 
             // txtClientLog
             // 
-            this.txtClientLog.Location = new System.Drawing.Point(30, 125);
+            this.txtClientLog.Location = new System.Drawing.Point(35, 100);
+            this.txtClientLog.Margin = new System.Windows.Forms.Padding(4);
             this.txtClientLog.Name = "txtClientLog";
-            this.txtClientLog.Size = new System.Drawing.Size(738, 256);
+            this.txtClientLog.Size = new System.Drawing.Size(922, 306);
             this.txtClientLog.TabIndex = 12;
             this.txtClientLog.Text = "";
             // 
             // txtClientPort
             // 
-            this.txtClientPort.Location = new System.Drawing.Point(312, 89);
+            this.txtClientPort.Location = new System.Drawing.Point(387, 57);
+            this.txtClientPort.Margin = new System.Windows.Forms.Padding(4);
             this.txtClientPort.Name = "txtClientPort";
-            this.txtClientPort.Size = new System.Drawing.Size(100, 25);
+            this.txtClientPort.Size = new System.Drawing.Size(124, 28);
             this.txtClientPort.TabIndex = 11;
+            this.txtClientPort.Text = "5000";
             // 
             // txtClientIP
             // 
-            this.txtClientIP.Location = new System.Drawing.Point(30, 89);
+            this.txtClientIP.Location = new System.Drawing.Point(35, 57);
+            this.txtClientIP.Margin = new System.Windows.Forms.Padding(4);
             this.txtClientIP.Name = "txtClientIP";
-            this.txtClientIP.Size = new System.Drawing.Size(235, 25);
+            this.txtClientIP.Size = new System.Drawing.Size(293, 28);
             this.txtClientIP.TabIndex = 10;
+            this.txtClientIP.Text = "127.0.0.1";
+            // 
+            // btnClientSend
+            // 
+            this.btnClientSend.Location = new System.Drawing.Point(863, 414);
+            this.btnClientSend.Margin = new System.Windows.Forms.Padding(4);
+            this.btnClientSend.Name = "btnClientSend";
+            this.btnClientSend.Size = new System.Drawing.Size(94, 30);
+            this.btnClientSend.TabIndex = 14;
+            this.btnClientSend.Text = "Send";
+            this.btnClientSend.UseVisualStyleBackColor = true;
+            this.btnClientSend.Click += new System.EventHandler(this.btnClientSend_Click);
             // 
             // lblClientPort
             // 
             this.lblClientPort.AutoSize = true;
-            this.lblClientPort.Location = new System.Drawing.Point(309, 64);
+            this.lblClientPort.Location = new System.Drawing.Point(383, 27);
+            this.lblClientPort.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblClientPort.Name = "lblClientPort";
-            this.lblClientPort.Size = new System.Drawing.Size(34, 15);
+            this.lblClientPort.Size = new System.Drawing.Size(41, 18);
             this.lblClientPort.TabIndex = 9;
             this.lblClientPort.Text = "Port";
             // 
             // lblClientIP
             // 
             this.lblClientIP.AutoSize = true;
-            this.lblClientIP.Location = new System.Drawing.Point(27, 64);
+            this.lblClientIP.Location = new System.Drawing.Point(31, 27);
+            this.lblClientIP.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblClientIP.Name = "lblClientIP";
-            this.lblClientIP.Size = new System.Drawing.Size(78, 15);
+            this.lblClientIP.Size = new System.Drawing.Size(145, 18);
             this.lblClientIP.TabIndex = 8;
-            this.lblClientIP.Text = "IP Address";
+            this.lblClientIP.Text = "Client IP Address";
             // 
-            // Form1
+            // tabControl_Transport
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.tabControl_Transport.Controls.Add(this.tabPage_Serial);
+            this.tabControl_Transport.Controls.Add(this.tabPage_Server);
+            this.tabControl_Transport.Controls.Add(this.tabPage_Client);
+            this.tabControl_Transport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl_Transport.Location = new System.Drawing.Point(0, 34);
+            this.tabControl_Transport.Name = "tabControl_Transport";
+            this.tabControl_Transport.SelectedIndex = 0;
+            this.tabControl_Transport.Size = new System.Drawing.Size(1000, 506);
+            this.tabControl_Transport.TabIndex = 6;
+            this.tabControl_Transport.SelectedIndexChanged += new System.EventHandler(this.tabControl_Transport_SelectedIndexChanged);
+            // 
+            // tabPage_Serial
+            // 
+            this.tabPage_Serial.Controls.Add(this.panelSerial);
+            this.tabPage_Serial.Location = new System.Drawing.Point(4, 28);
+            this.tabPage_Serial.Name = "tabPage_Serial";
+            this.tabPage_Serial.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_Serial.Size = new System.Drawing.Size(992, 474);
+            this.tabPage_Serial.TabIndex = 0;
+            this.tabPage_Serial.Text = "Serial";
+            this.tabPage_Serial.UseVisualStyleBackColor = true;
+            // 
+            // tabPage_Server
+            // 
+            this.tabPage_Server.Controls.Add(this.panelTCPServer);
+            this.tabPage_Server.Location = new System.Drawing.Point(4, 28);
+            this.tabPage_Server.Name = "tabPage_Server";
+            this.tabPage_Server.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_Server.Size = new System.Drawing.Size(992, 474);
+            this.tabPage_Server.TabIndex = 1;
+            this.tabPage_Server.Text = "TCP Server";
+            this.tabPage_Server.UseVisualStyleBackColor = true;
+            // 
+            // tabPage_Client
+            // 
+            this.tabPage_Client.Controls.Add(this.panelTCPClient);
+            this.tabPage_Client.Location = new System.Drawing.Point(4, 28);
+            this.tabPage_Client.Name = "tabPage_Client";
+            this.tabPage_Client.Size = new System.Drawing.Size(992, 474);
+            this.tabPage_Client.TabIndex = 2;
+            this.tabPage_Client.Text = "TCP Client";
+            this.tabPage_Client.UseVisualStyleBackColor = true;
+            // 
+            // MainForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1000, 540);
+            this.Controls.Add(this.tabControl_Transport);
             this.Controls.Add(this.toolStrip1);
-            this.Controls.Add(this.panelSerial);
-            this.Controls.Add(this.panelTCPClient);
-            this.Controls.Add(this.panelTCPServer);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
-            this.Name = "Form1";
-            this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Name = "MainForm";
+            this.Text = "MainForm";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.panelSerial.ResumeLayout(false);
@@ -543,6 +629,10 @@
             this.panelTCPServer.PerformLayout();
             this.panelTCPClient.ResumeLayout(false);
             this.panelTCPClient.PerformLayout();
+            this.tabControl_Transport.ResumeLayout(false);
+            this.tabPage_Serial.ResumeLayout(false);
+            this.tabPage_Server.ResumeLayout(false);
+            this.tabPage_Client.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -592,6 +682,10 @@
         private System.Windows.Forms.Label lblClientPort;
         private System.Windows.Forms.Label lblClientIP;
         private System.IO.Ports.SerialPort _serialPort;
+        private System.Windows.Forms.TabControl tabControl_Transport;
+        private System.Windows.Forms.TabPage tabPage_Serial;
+        private System.Windows.Forms.TabPage tabPage_Server;
+        private System.Windows.Forms.TabPage tabPage_Client;
     }
 }
 

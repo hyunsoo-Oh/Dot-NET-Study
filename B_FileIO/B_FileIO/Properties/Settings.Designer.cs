@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TerminalProgram.Properties
+namespace B_FileIO.Properties
 {
 
 

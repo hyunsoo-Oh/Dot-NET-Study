@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TerminalProgram.Properties
+namespace P_ParserSimulator.Properties
 {
 
 
