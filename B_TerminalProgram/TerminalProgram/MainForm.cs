@@ -17,6 +17,8 @@ namespace TerminalProgram
     {
         private TerminalController _controller;
 
+        private byte _transportMode = 0; // 0: Serial, 1: TCP Server, 2: TCP Client
+
         public MainForm()
         {
             InitializeComponent();
@@ -40,12 +42,15 @@ namespace TerminalProgram
             {
                 // 상태 변경 시 UI 업데이트 (필요 시 구현)
             };
+        }
+        
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            this.Text = "Terminal - Serial";
+        }
 
-            // 초기 전송 방식 설정 (Serial Port 기본)
-            // _serialPort 객체는 Designer에서 생성됨
-            var transport = new TerminalProgram.Core.Transports.SerialTransport(_serialPort);
-            _controller.Initialize(transport, null); // 프레이머 미사용 (일단 null)
-
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
             // 콤보 박스 초기값 설정
             cmbCom.SelectedIndex = 0;
             cmbBaud.SelectedItem = "9600";
@@ -57,20 +62,15 @@ namespace TerminalProgram
         // 현재 활성화된 패널에 맞는 로그 텍스트박스를 반환하는 헬퍼 메서드
         private RichTextBox GetCurrentLogBox()
         {
-            if (panelSerial.Visible) return txtCommandLog;
-            if (panelTCPServer.Visible) return txtServerLog;
-            if (panelTCPClient.Visible) return txtClientLog;
+            if (_transportMode == 0) return txtCommandLog;
+            else if (_transportMode == 1) return txtServerLog;
+            else if (_transportMode == 2) return txtClientLog;
             return txtCommandLog;
         }
 
         IPEndPoint serverIP;
         IPEndPoint clientIP;
         IPEndPoint ip;
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            this.Text = "Terminal - Serial";
-        }
 
         // --- Tab Control Page 변경 이벤트: 모드 전환 ---
         private void tabControl_Transport_SelectedIndexChanged(object sender, EventArgs e)
@@ -80,12 +80,15 @@ namespace TerminalProgram
             {
                 case 0:
                     this.Text = "Terminal - Serial";
+                    _transportMode = 0;
                     break;
                 case 1:
                     this.Text = "Terminal - TCP/IP Server";
+                    _transportMode = 1;
                     break;
                 case 2:
                     this.Text = "Terminal - TCP/IP Client";
+                    _transportMode = 2;
                     break;
             }
         }
@@ -158,8 +161,7 @@ namespace TerminalProgram
         {
             try
             {
-                string msg = txtCommand.Text;
-                await _controller.SendTextAsync(msg + "\n");
+                await _controller.SendTextAsync(txtCommand.Text + Environment.NewLine);
                 txtCommand.Clear();
             }
             catch (Exception ex)
@@ -174,13 +176,15 @@ namespace TerminalProgram
             {
                 try
                 {
+                    e.Handled = true;           // 이벤트를 여기서 종료시킴 -> TextBox에 문자가 나타나지 않음
+                    e.SuppressKeyPress = true;  // 엔터키 소리 방지
+
                     // 엔터 입력 시 실제 데이터 전송 로직 추가  
                     string msg = txtCommand.Text;
                     await _controller.SendTextAsync(msg + "\n");
                     txtCommand.Clear();
                     
-                    e.Handled = true;
-                    e.SuppressKeyPress = true;
+
                 }
                 catch (Exception ex)
                 {
@@ -226,13 +230,14 @@ namespace TerminalProgram
         {
             if (e.KeyCode == Keys.Enter)
             {
-                e.SuppressKeyPress = true;  // 엔터키 소리 방지입니다.
+                e.Handled = true;           // 이벤트를 여기서 종료시킴 -> TextBox에 문자가 나타나지 않음
+                e.SuppressKeyPress = true;  // 엔터키 소리 방지
 
-                // 비동기 데이터 송신 (await 사용 시 예외 처리 권장)입니다.
+                // 비동기 데이터 송신 (await 사용 시 예외 처리 권장)
                 try
                 {
                     await _controller.SendTextAsync("[Client] " + txtClientCommand.Text + Environment.NewLine);
-                    txtClientCommand.Clear(); // txtServerCommand에서 오타 수정입니다.
+                    txtClientCommand.Clear();
                 }
                 catch (Exception ex)
                 {
@@ -279,6 +284,7 @@ namespace TerminalProgram
         {
             if (e.KeyCode == Keys.Enter)
             {
+                e.Handled = true;           // 이벤트를 여기서 종료시킴 -> TextBox에 문자가 나타나지 않음
                 e.SuppressKeyPress = true;  // 엔터키 소리 방지
 
                 // 비동기 데이터 송신 (await 사용 시 예외 처리 권장)

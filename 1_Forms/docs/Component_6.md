@@ -9,6 +9,22 @@
 // InitialDirectory = "C:\\
 
 /* ==== Code (form.cs) ==== */
+// bin\Debug 또는 bin\Release 경로가 반환됩니다.
+string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+
+// 생성하고자 하는 하위 폴더명 정의 (예: "Logs" 또는 "Data")
+string targetFolderName = "ProjectData";
+string targetPath = Path.Combine(baseDir, targetFolderName);
+
+// 디렉토리 존재 여부 확인 및 생성 (Directory.CreateDirectory는 이미 존재하면 무시함)
+if (!Directory.Exists(targetPath))
+{
+    Directory.CreateDirectory(targetPath);
+}
+
+// TextBox에 최종 경로 할당
+txtPath.Text = targetPath;
+
 using (OpenFileDialog dlg = new OpenFileDialog())
 {
     dlg.Filter = "텍스트 파일 (*.txt)|*.txt|모든 파일 (*.*)|*.*";
