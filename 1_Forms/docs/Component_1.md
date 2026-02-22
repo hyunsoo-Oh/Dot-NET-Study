@@ -1,194 +1,182 @@
 ## Component_1
-### 기본 입력 / 명령 컨트롤
-#### **Label** : 화면에 읽기 전용 텍스트를 표시하는 컨트롤.
+### 핵심 기능
+
+#### **SerialPort** : PC와 외부 장치를 COM 포트(UART, USB)로 연결해 통신
 ```C#
-/* ==== Code (form.cs) ==== */
-label.Text = "Text";
-// 글자 색상 변경 (SystemColors.ControlText는 기본 색상)
-label.ForeColor = isError ? Color.Red : SystemColors.ControlText; 
-// 배경 색상 변경
-label.BackColor = Color.Red; 
+
 ```
 
-#### **TextBox** : 사용자가 문자/숫자를 입력하는 한 줄(또는 멀티라인) 입력 컨트롤.
+#### **TcpListener** : 특정 IP와 Port에서 클라이언트 접속을 대기(Accept) 하는 클래스
 ```C#
+
+```
+
+#### **TcpClient** : 서버에 연결하고 데이터 송수신하는 클래스
+```C#
+
+```
+
+#### **Timer** : 일정 시간 간격으로 이벤트를 발생시켜 주기 작업을 돌리는 컴포넌트.
+- System.Windows.Forms.Timer : WinForms 전용 UI 타이머
+- System.Timers.Timer : 서버/백그라운드용 (Invoke 필요)
+```C#
+using System.Windows.Forms.Timer
+
 /* ==== Designer ==== */
-// Multiline = true  // 여러 줄 입력 허용
-// ReadOnly = false  // 입력 허용 여부
-// ScrollBars = Vertical  // 스크롤바
+// Timer 컴포넌트(timer1) 추가
+// Interval = 1000      // Tick 이벤트 발생 주기 (ms)
+// Enabled = false      // true면 폼 로드 시 자동 시작
 
 /* ==== Code (form.cs) ==== */
-textBox.Text = "Text";
-textBox.AppendText("Text" + Environment.NewLine);
-textBox.Clear();
-textBox.SelectionStart = 5;   // 시작 위치
-textBox.SelectionLength = 3;  // 길이
-textBox.SelectAll();
-int index = textBox.Text.IndexOf("Text"); // 특정 문자열 찾기
-int lineLength = textBox.Lines[index].Length;
-textBox.SelectedText = ""; // 마우스 드래그로 선택
-```
+// 시작/정지
+timer.Interval = 200; // 200ms
+timer.Start();
+timer.Stop();
 
-#### **RichTextBox** : **서식(폰트/색/정렬)**이 적용된 텍스트를 입력·표시하는 컨트롤.
-```C#
-/* ==== Code (form.cs) ==== */
-richTextBox.AppendText("Text" + Environment.NewLine);
-richTextBox.Clear();
-richTextBox.SelectionStart = 5;   // 시작 위치
-richTextBox.SelectionLength = 3;  // 길이
-richTextBox.SelectAll();
-int index = richTextBox.Text.IndexOf("Text"); // 특정 문자열 찾기
-int lineLength = richTextBox.Lines[index].Length;
-richTextBox.SelectedText = ""; // 마우스 드래그로 선택
-
-// 색/서식 적용(예: 에러 로그는 빨간색)
-void AppendLogWithColor(string msg, Color color)
+void timer_Tick(object sender, EventArgs e)
 {
-    // 현재 커서 위치로 이동
-    richTextBox.SelectionStart = richTextBox.TextLength;
-    richTextBox.SelectionLength = 0;
+    // 주기 작업 (UI 스레드에서 실행됨)
+    UpdateUiStatus();
+}
+```
+```C#
+using System.Timers.Timer
 
-    // 색 적용
-    richTextBox.SelectionColor = color;
+private System.Timers.Timer _timer;
 
-    // 텍스트 추가
-    richTextBox.AppendText(msg + "\r\n");
+public form()
+{
+    _timer = new System.Timers.Timer();
 
-    // 기본색 복구(다음 로그에 영향 방지)
-    richTextBox.SelectionColor = richTextBoxLog.ForeColor;
+    _timer.Interval = 1000;
+    _timer.AutoReset = true; // AutoReset = true → 반복 실행
+    _timer.Elapsed += Timer_Elapsed; // 이벤트 연결
+    _timer.Enabled = false; // 시작 시 자동 실행 여부
 }
 
-// 마지막 라인 텍스트 제거
-void RemoveLastLine(RichTextBox rtb)
+/* ==== 시작 / 정지 ==== */
+private void StartTimer()
 {
-    int lastIndex = rtb.Text.LastIndexOf(Environment.NewLine);
-    if (lastIndex >= 0)
+    _timer.Interval = 200; // 200ms
+    _timer.Start();
+}
+
+private void StopTimer()
+{
+    _timer.Stop();
+}
+
+/* ==== Tick (Elapsed) ==== */
+private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+{
+    // ⚠ ThreadPool 스레드에서 실행됨
+    // UI 접근 시 반드시 Invoke 필요
+    if (this.InvokeRequired)
     {
-        rtb.Text = rtb.Text.Substring(0, lastIndex);
+        this.Invoke(new Action(UpdateUiStatus));
+    }
+    else
+    {
+        UpdateUiStatus();
     }
 }
-```
 
-#### **MaskedTextBox** : 전화번호, 날짜 등 **입력 형식을 강제**하는 텍스트 입력 컨트롤.
-```C#
-/* ==== Designer ==== */
-// Mask            = "000-0000-0000"   // 전화번호 형식 (숫자만)
-// PromptChar      = '_'               // 미입력 시 표시 문자
-// TextMaskFormat  = MaskFormat.IncludeLiterals
-// CutCopyMaskFormat = MaskFormat.IncludeLiterals
-// ValidatingType  = typeof(System.DateTime) // 날짜 입력일 경우
-
-/* ==== Code (form.cs) ==== */
-// 현재 입력된 값 (마스크 문자 포함)
-string rawText = maskedTextBox.Text;
-
-// 마스크가 완전히 채워졌는지 확인
-bool isCompleted = maskedTextBox.MaskCompleted;
-
-// 숫자만 추출하고 싶을 때 
-maskedTextBox.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
-string numberOnly = maskedTextBox.Text;
-
-// 다시 원래 상태로 복구
-maskedTextBox.TextMaskFormat = MaskFormat.IncludeLiterals;
-
-// 입력값 유효성 검사 (예: 날짜)
-bool isValid = DateTime.TryParse(maskedTextBox.Text, out DateTime dateValue);
-
-// 입력 초기화
-maskedTextBox.Clear();
-
-// 마스크 변경 (런타임에서 형식 변경)
-maskedTextBox.Mask = "0000-00-00"; // YYYY-MM-DD
-
-// TextMaskFormat에 MaskFormat이라는 “열거형(enum) 값” 입력
-//  - maskedTextBox.Text(읽기)에서 "마스크 리터럴/프롬프트를 포함할지" 결정
-//  - IncludeLiterals         : '-' '/' ':' 같은 구분 문자는 포함, '_' 같은 PromptChar는 제외
-//  - IncludePrompt           : '_' 같은 PromptChar는 포함, '-' 같은 리터럴은 제외
-//  - IncludePromptAndLiterals: 리터럴 + PromptChar 모두 포함
-//  - ExcludePromptAndLiterals: 리터럴 + PromptChar 모두 제외 (숫자/문자 값만)
-// 예) Mask="000-0000-0000", 입력="010-1234-____" 일 때
-//    IncludeLiterals          -> "010-1234-"      (리터럴 '-' 유지, 미입력 '_' 제거)
-//    ExcludePromptAndLiterals -> "0101234"        (숫자만)
-```
-
-#### **Button** : **클릭/탭**으로 특정 동작(명령/이벤트)을 실행하는 컨트롤.
-```C#
-/* ==== Designer ==== */
-// Text         = 버튼의 글씨
-// DialogResult = 모달 폼에서 OK / Cancel 설정 가능
-
-/* ==== Code (form.cs) ==== */
-// 버튼 비활성/활성
-button.Enabled = false;
-button.Enabled = true;
-
-void button_Click(object sender, EventArgs e)
+private void UpdateUiStatus()
 {
-    // 명령 실행 로직
-    button.Text = "처리 중..."; // 버튼 텍스트 변경
+    label1.Text = DateTime.Now.ToString();
 }
 ```
 
-#### **MessageBox** : **알림/경고/확인(Yes·No 등)** 메시지를 모달 창으로 표시하고 사용자 응답을 받는 컨트롤.
-```C#
-/* ==== Code (form.cs) ==== */
-DialogResult result = MessageBox.Show(
-    "정말 종료하시겠습니까?", // 내용  
-    "종료 확인",            // 제목
-    MessageBoxButtons.YesNo, // OKCancel, YesNoCancel, RetryCancel
-    MessageBoxIcon.Question  // None, Information, Warning, Error, Question
-);
 
-if (result == DialogResult.No)
+#### **Timer** : 일정 시간 간격으로 이벤트를 발생시켜 주기 작업을 돌리는 컴포넌트.
+```C#
+/* ==== Designer ==== */
+// Timer 컴포넌트(timer1) 추가
+// Interval = 1000      // Tick 이벤트 발생 주기 (ms)
+// Enabled = false      // true면 폼 로드 시 자동 시작
+
+/* ==== Code (form.cs) ==== */
+// 시작/정지
+timer.Interval = 200; // 200ms
+timer.Start();
+timer.Stop();
+
+void timer_Tick(object sender, EventArgs e)
 {
-    e.Cancel = true; // 폼 닫기 취소
+    // 주기 작업 (UI 스레드에서 실행됨)
+    UpdateUiStatus();
 }
 ```
 
-#### **LinkLabel** : 웹 링크처럼 클릭 가능한 텍스트를 표시하는 컨트롤.
+#### **H/V ScrollBar** : 화면/값을 수평(H)/수직(V)으로 스크롤하는 바 컨트롤.
 ```C#
 /* ==== Designer ==== */
-// Text      = "공식 홈페이지"
-// AutoSize  = true
-// LinkColor = Blue
-// ActiveLinkColor = Red
-// VisitedLinkColor = Purple
+// Minimum = 0
+// Maximum = 100
+// Value   = 0
+// SmallChange = 1   // 키보드/작은 이동 단위
+// LargeChange = 10  // PageUp/Down 같은 큰 이동 단위
 
 /* ==== Code (form.cs) ==== */
-void linkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+void scrollBar_Scroll(object sender, ScrollEventArgs e)
 {
-    // 기본 브라우저로 URL 열기
-    System.Diagnostics.Process.Start(
-        new System.Diagnostics.ProcessStartInfo
-        {
-            FileName = "https://example.com",
-            UseShellExecute = true
-        }
+    int value = e.NewValue; // 변경된 값
+    ApplyScrollValue(value);
+}
+
+// 값 직접 제어
+hScrollBar.Value = 50;
+vScrollBar.Value = 20;
+```
+
+#### **Web Browser** : 폼 안에서 웹 페이지를 렌더링/탐색하는 컨트롤.
+```C#
+/* ==== Designer ==== */
+// ScriptErrorsSuppressed = true   // 스크립트 에러 팝업 억제
+// Dock = Fill
+
+/* ==== Code (form.cs) ==== */
+// URL 이동
+webBrowser.Navigate("https://example.com");
+
+// HTML 직접 표시
+webBrowser.DocumentText = "<html><body><h2>Hello</h2></body></html>";
+
+void webBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+{
+    // 로드 완료 후 처리 (DOM 접근 가능)
+    // 예: webBrowser.Document.GetElementById("id");
+    OnWebLoaded(e.Url.ToString());
+}
+```
+
+#### **Drawing** : Graphics로 화면/이미지에 도형·텍스트 등을 직접 그리는 작업(렌더링).
+```C#
+/* ==== Designer ==== */
+// (특정 컨트롤 Panel/PictureBox 등을 캔버스로 사용)
+// DoubleBuffered 설정이 가능한 컨트롤이면 true 권장 (깜빡임 감소)
+
+/* ==== Code (form.cs) ==== */
+void panelCanvas_Paint(object sender, PaintEventArgs e)
+{
+    Graphics g = e.Graphics;
+
+    // 사각형
+    g.DrawRectangle(Pens.Black, 10, 10, 200, 100);
+
+    // 문자열
+    g.DrawString(
+        "Status: OK",
+        this.Font,
+        Brushes.Black,
+        20,
+        20
     );
 
-    // 방문 처리
-    linkLabel.LinkVisited = true;
+    // 선
+    g.DrawLine(Pens.Black, 10, 130, 300, 130);
 }
-```
 
-#### **ToolTip** : 컨트롤에 마우스를 올렸을 때 보조 설명을 표시하는 컴포넌트.
-```C#
-/* ==== Designer ==== */
-// ToolTip 컴포넌트(toolTip1) 추가
-// AutoPopDelay = 5000  : 툴팁이 표시된 후 자동으로 사라지기까지의 시간 (ms)
-// InitialDelay = 500   : 마우스를 컨트롤 위에 올린 후 툴팁이 처음 나타나기까지의 지연 시간 (ms)
-// ReshowDelay  = 100   : 다른 컨트롤로 이동했을 때 다시 표시되기까지의 지연 시간 (ms)
-// ShowAlways   = false : 폼이 비활성화(비포커스) 상태여도 툴팁 표시 여부
-
-/* ==== Code (form.cs) ==== */
-// ToolTip 1개를 공유하고 SetToolTip()으로 관리
-// 버튼에 툴팁 설정
-toolTip.SetToolTip(button_Connect, "클릭하면 작업을 시작합니다.");
-
-// 텍스트박스에 툴팁 설정
-toolTip.SetToolTip(textBox_Log, "숫자만 입력 가능합니다.");
-
-// 런타임에서 변경
-toolTip.SetToolTip(button_Disconnect, "현재 비활성 상태입니다.");
+panelCanvas.Invalidate(); // 다시 그려야 한다고 "요청" (빈번한 갱신)
+panelCanvas.Refresh();    // Invalidate + 즉시 Paint (즉시 반영 필요)
 ```

@@ -1,4 +1,6 @@
-# Component 종류
+# Control과 Component 종류
+#### Control: UI에 직접 표시되는 요소 (Control은 Component를 상속)
+#### Component: 화면에는 보이지 않지만 기능을 제공하는 객체
 ### Designer(속성 창) vs 코드(C#) 에서 속성을 처리하는 기준
 - **Designer(속성창)**
     - UI 레이아웃 & 외형 관련
@@ -10,7 +12,7 @@
     - 반복 구조 / 동적 컨트롤 생성
     - MVP / MVC / MVVM 구조 적용 시
 
-### Component_1
+### Control_1
 #### 기본 입력 / 명령 컨트롤
 > - **Label** : 화면에 읽기 전용 텍스트를 표시하는 컨트롤.
 > - **TextBox** : 사용자가 문자/숫자를 입력하는 한 줄(또는 멀티라인) 입력 컨트롤.
@@ -21,7 +23,7 @@
 > - **LinkLabel** : 웹 링크처럼 클릭 가능한 텍스트를 표시하는 컨트롤.
 > - **ToolTip** : 컨트롤에 마우스를 올렸을 때 보조 설명을 표시하는 컴포넌트.
 
-### Component_2
+### Control_2
 #### 선택 / 옵션 컨트롤
 > - **CheckBox** : 켜짐/꺼짐(다중 선택 가능) 상태를 선택하는 컨트롤.
 > - **RadioButton** : 같은 그룹(panel, GroupBox)에서 하나만 선택하는 단일 선택 컨트롤.
@@ -29,36 +31,51 @@
 > - **NumericUpDown** : 숫자만 입력하고 증감 버튼으로 값 변경하는 컨트롤.
 > - **TrackBar** : 슬라이더를 드래그해서 범위 내 값을 연속/단계적으로 조절하는 컨트롤.
 
-### Component_3
-#### 리스트 / 구조 컨트롤
+### Control_3
+#### 데이터 / 테이블
 > - **ListBox** : 여러 항목 중 하나/여러 개를 선택하는 단순 리스트 컨트롤.
 > - **CheckedListBox** : 리스트 항목마다 체크 상태를 개별로 선택할 수 있는 리스트 컨트롤.
 > - **ListView** : 아이콘/열(Column) 등 다양한 보기로 리스트를 고급 표시하는 컨트롤.
 > - **DataGridView** : 데이터를 행/열로 표시하고, 정렬/편집/선택/바인딩을 지원
 > - **TreeView** : 폴더 구조처럼 계층(트리) 데이터를 펼치고 선택하는 컨트롤.
 
-### Component_4
+### Control_4
 #### 표시 / 미디어 컨트롤
 > - **ProgressBar** : **작업 진행 상태**를 막대 형태로 표시하는 컨트롤.
 > - **StatusStrip** : **폼 하단에 상태 메시지**를 표시하는 바 컨트롤.
 > - **ToolStrip** : 버튼, 드롭다운 등을 포함한 툴바 컨트롤.
 > - **MenuStrip** : **상단 메뉴(File, Edit 등)를** 구성하는 컨트롤.
 > - **PictureBox** : **이미지(비트맵 등)를 표시**하는 컨트롤.
-> - **Chart** : 데이터를 **그래프(선/막대/파이 등)**로 시각화하는 컨트롤.
 
-### Component_5
+### Control_5
 #### 레이아웃 / 컨테이너 컨트롤
 > - **Panel** : 여러 컨트롤을 묶어 관리하는 기본 컨테이너.
 > - **GroupBox** : 제목이 있는 컨트롤 묶음 컨테이너.
 > - **TabControl** : 탭(Tab)으로 화면을 분리하는 컨테이너.
+> - **H/V ScrollBar** : 화면/값을 수평(H)/수직(V)으로 스크롤하는 바 컨트롤.
 > - **SplitContainer** : 화면을 분할하고 사용자가 크기를 조절할 수 있는 컨테이너.
 > - **FlowLayoutPanel** : 컨트롤을 자동으로 흐름 배치하는 레이아웃 컨테이너.
 > - **TableLayoutPanel** : 행/열(Grid) 기반으로 컨트롤을 정렬하는 레이아웃 컨테이너.
 
-### Component_6
-#### 추가적인 기능
-> - **Open & Save FileDialog** : 파일 열기/저장 경로를 선택하는 표준 다이얼로그.
-> - **Timer** : 일정 시간 간격으로 이벤트를 발생시켜 주기 작업을 돌리는 컴포넌트.
-> - **H/V ScrollBar** : 화면/값을 수평(H)/수직(V)으로 스크롤하는 바 컨트롤.
-> - **Web Browser** : 폼 안에서 웹 페이지를 렌더링/탐색하는 컨트롤.
+### Control_6
+#### GDI+ API 기능
 > - **Drawing** : Graphics로 화면/이미지에 도형·텍스트 등을 직접 그리는 작업(렌더링).
+
+### Component_1 
+#### 핵심 기능
+> - **SerialPort** : PC와 외부 장치를 COM 포트(UART, USB)로 연결해 통신
+> - **TcpListener** : 특정 IP와 Port에서 클라이언트 접속을 대기(Accept) 하는 클래스
+> - **TcpClient** : 서버에 연결하고 데이터 송수신하는 클래스
+> - **Timer** : 일정 시간 간격으로 이벤트를 발생시켜 주기 작업을 돌리는 컴포넌트.
+>    - System.Windows.Forms.Timer
+UI 스레드
+>    - System.Timers.Timer
+
+### Component_2
+#### 사용자 입력 기반 시스템 다이얼로그
+> - **Open FileDialog** : 파일 열기 경로를 선택하는 표준 다이얼로그.
+> - **Save FileDialog** : 파일 저장 경로를 선택하는 표준 다이얼로그.
+> - **FolderBrowserDialog** : 폴더 경로를 선택하는 표준 다이얼로그.
+
+
+
