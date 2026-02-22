@@ -98,12 +98,10 @@ namespace TerminalProgram
         {
             if (box.InvokeRequired)
             {
-                box.Invoke(new Action<RichTextBox, string>(UiLog), box, msg);
+                box.BeginInvoke(new Action<RichTextBox, string>(UiLog), box, msg);
+                return;
             }
-            else
-            {
-                box.AppendText(msg);
-            }
+            box.AppendText(msg);
         }
 
         // ======== SerialPort (시리얼 포트 제어) =========//

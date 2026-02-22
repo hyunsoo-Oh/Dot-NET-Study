@@ -8,7 +8,7 @@ namespace TerminalProgram.Core.Transports
     /// 시리얼 포트 통신을 담당하는 클래스
     /// System.IO.Ports.SerialPort를 래핑하여 ITransport 인터페이스를 구현
     /// </summary>
-    public class SerialTransport : ITransport
+    public class SerialTransport : ITransport, IDisposable
     {
         private SerialPort _serialPort;
 
@@ -92,10 +92,6 @@ namespace TerminalProgram.Core.Transports
         {
             try
             {
-                // SerialPort 객체가 재사용될 수 있으므로, 이벤트를 해제
-                _serialPort.DataReceived -= SerialPort_DataReceived;
-                _serialPort.ErrorReceived -= SerialPort_ErrorReceived;
-
                 if (_serialPort.IsOpen)
                 {
                     _serialPort.Close();
@@ -106,6 +102,18 @@ namespace TerminalProgram.Core.Transports
             {
                 OnError?.Invoke($"Close Error: {ex.Message}");
             }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Dispose()
+        {
+            Close();
+
+            // SerialPort 객체가 재사용될 수 있으므로, 이벤트를 해제
+            _serialPort.DataReceived -= SerialPort_DataReceived;
+            _serialPort.ErrorReceived -= SerialPort_ErrorReceived;
+            _serialPort.Dispose();
         }
 
         /// <summary>
