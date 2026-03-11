@@ -9,11 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Core\" />
+    <Compile Remove="Core\**" />
+    <EmbeddedResource Remove="Core\**" />
+    <None Remove="Core\**" />
+    <Page Remove="Core\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Presentation\Controls\" />
-    <Folder Include="Presentation\Pages\" />
-    <Folder Include="Presentation\Shell\Models\" />
-    <Folder Include="Presentation\Shell\ViewModels\" />
+    <Folder Include="Presentation\Pages\Models\" />
+    <Folder Include="Presentation\Pages\ViewModels\" />
     <Folder Include="Presentation\Shell\Views\" />
     <Folder Include="Resources\Themes\Layout\" />
     <Folder Include="Resources\Themes\Controls\" />
